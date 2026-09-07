@@ -1,0 +1,15 @@
+{
+  "model": "sklearn HistGradientBoostingClassifier (used as a reranking score)",
+  "version": "v1-bootstrap",
+  "trained_at": "2026-08-29T16:43:54",
+  "train_rows": 1454,
+  "test_rows": 485,
+  "train_seconds": 2.13,
+  "roc_auc": 0.719,
+  "average_precision": 0.9156,
+  "correlation_with_raw_rule_score": 0.7653,
+  "training_data": "SYNTHETIC weak-supervision bootstrap \u2014 labels are derived FROM the rule engine's own score_pct plus noise, not real user clicks. This is a cold-start placeholder. Retrain with train_ranker_from_events.py once real Phase 0 event data exists.",
+  "design_constraint": "This model NEVER determines eligibility or filters schemes \u2014 disqualified schemes are excluded before this model ever sees them, and the rule engine's hard-criteria check remains untouched and authoritative. This model only reorders already-eligible schemes.",
+  "not_wired_in": "recommendation_service.py and its API endpoint are unmodified and still return pure rule-engine order \u2014 this artifact is standalone until explicitly wired in behind a flag.",
+  "artifact": "app\\models\\ranker_bootstrap_v1.joblib"
+}

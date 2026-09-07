@@ -1,5 +1,6 @@
 import logging
 import json
+import re
 import sqlite3
 import time
 from typing import List, Optional, Dict, Any, Generator
@@ -13,6 +14,8 @@ from llama_index.embeddings.gemini import GeminiEmbedding
 from pinecone import Pinecone
 
 from app.core.config import settings
+from app.services.hybrid_retriever import hybrid_retriever, RetrievedChunk
+from app.services.multilingual_service import multilingual_service
 
 
 logger = logging.getLogger(__name__)
@@ -48,25 +51,6 @@ class RAGService:
         Settings.llm = self.llm
         Settings.embed_model = self.embed_model
 
-    # ... (skipping unchanged methods) ...
-
-    def stream_query(self, query: str, target_language: str = "English", history: List[Dict] = []) -> Generator[str, None, None]:
-        # ... (unchanged parts of stream_query) ...
-        
-            # 5. Generate
-            gen_step = {"name": "Generating Answer with Gemini", "status": "in-progress", "timestamp": str(time.time())}
-            steps.append(gen_step)
-            yield send_steps(steps)
-            
-            # Combine System Prompt + Context + Query for stronger adherence
-            full_prompt = f"{self.SYSTEM_PROMPT}\n\nChat History:\n{chat_context}\n\nUser Question: {query}\n\n{web_context}\n\nInstruction: Answer in English first."
-            if target_language and target_language != "English":
-                full_prompt += f" Then provide a translation in {target_language}."
-            
-            # Using Gemini Stream
-            logger.info(f"Starting stream_complete for query: {query}")
-            response_stream = self.llm.stream_complete(full_prompt)
-
     def _init_vector_store(self):
         self.pc = Pinecone(api_key=settings.PINECONE_API_KEY)
         self.pinecone_index = self.pc.Index(settings.PINECONE_INDEX_NAME)
@@ -78,9 +62,10 @@ class RAGService:
         self.index = VectorStoreIndex.from_vector_store(
             vector_store=self.vector_store,
         )
-        # Expose retriever directly for granular control
-        self.retriever = self.index.as_retriever(similarity_top_k=5)
+        # Expose retriever directly — used as the Pinecone dense stage in hybrid pipeline
+        self.retriever = self.index.as_retriever(similarity_top_k=10)  # Fetch more for fusion
         self.query_engine = self.index.as_query_engine(streaming=False)
+        logger.info("Vector store initialised (Pinecone). Hybrid retriever ready (lazy-loaded).")
 
     def _is_conversational(self, query: str) -> bool:
         """
@@ -91,11 +76,20 @@ class RAGService:
         if any(x in q for x in ["who are you", "what are you", "your name", "who created you", "your purpose"]):
             return True
         # Greeting/General triggers (simple heuristic)
-        # If it's very short and contains greetings
-        greetings = ["hi", "hello", "hey", "good morning", "good afternoon", "good evening", "namaste", "vanakkam"]
-        if len(q.split()) <= 3 and any(g in q for g in greetings):
+        # If it's very short and contains greetings.
+        # NOTE: must match whole words, not substrings — a naive `"hi" in q`
+        # would false-positive on words like "this", "which", "think", and
+        # `"hey" in q` on "they", silently diverting real scheme questions
+        # (e.g. "This is confusing" / "They are farmers") to the canned
+        # greeting reply instead of the RAG pipeline.
+        greetings_single_word = {"hi", "hello", "hey", "namaste", "vanakkam"}
+        greetings_phrase = ["good morning", "good afternoon", "good evening"]
+        words = set(re.findall(r"[a-z]+", q))
+        if len(q.split()) <= 3 and (
+            words & greetings_single_word or any(g in q for g in greetings_phrase)
+        ):
             return True
-        
+
         return False
 
     def _init_caches(self):
@@ -213,33 +207,53 @@ class RAGService:
                     logger.warning(f"LangCache error: {e}")
                     log_step("LangCache Check Failed", "error")
 
-            # 3. RAG System (Gemini + Pinecone)
+            # 3. RAG System — Hybrid Retrieval + Re-ranking
             if not response_data:
-                log_step("Querying RAG System")
-                source = "RAG System (Gemini + Pinecone)"
-                
-                # Construct Prompt with History
+                log_step("Querying Hybrid RAG System")
+                source = "Hybrid RAG (Pinecone + BM25 + Cross-Encoder)"
+
+                # Build prompt with history
                 full_prompt = query_text
                 if history:
                     history_context = "\n".join([f"{msg['role']}: {msg['content']}" for msg in history[-4:]])
                     full_prompt = f"Chat History:\n{history_context}\n\nCurrent Question: {query_text}"
-                
+
                 # Localization instruction
                 if target_language != "English":
                     full_prompt += f"\n\nIMPORTANT: Provide the answer in English first, and then provide a translation in {target_language}."
-                
-                log_step("Retrieving Context from Pinecone")
-                # Note: query_engine does retrieval + synthesis
-                response = self.query_engine.query(full_prompt)
+
+                log_step("Hybrid Retrieval (Dense + BM25 + Re-rank)")
+                try:
+                    # Detect query language for multilingual retrieval enrichment
+                    ml_info = multilingual_service.process_query(query_text)
+                    lang_code = ml_info["lang_code"]
+                    lang_name = ml_info["lang_name"]
+                    logger.info(f"[ML] Query language: {lang_name} ({lang_code}, conf={ml_info['confidence']:.2f})")
+
+                    context_text, chunks = hybrid_retriever.retrieve_text_context(
+                        query=ml_info["expanded_query"],  # keyword-expanded for BM25
+                        pinecone_retriever=self.retriever,
+                        top_k_final=5,
+                        ml_info=ml_info,
+                    )
+                    if context_text:
+                        full_prompt = f"{full_prompt}\n\nContext:\n{context_text}"
+                        source = f"Hybrid RAG (Pinecone+BM25+CE, {lang_name})"
+                    else:
+                        source = "General Knowledge (no RAG context)"
+                except Exception as e:
+                    logger.warning(f"Hybrid retrieval failed, falling back to query_engine: {e}")
+                    context_text = ""
+
                 log_step("Generating Answer with Gemini")
-                
+                response = self.query_engine.query(full_prompt) if not context_text else \
+                           type('R', (), {'__str__': lambda s: self.llm.complete(full_prompt).text})()
                 response_text = str(response)
-                
-                # Save to caches
+
                 log_step("Updating Caches")
                 self._save_local_cache(query_text, response_text)
                 if self.langcache_configured:
-                     try:
+                    try:
                         from langcache import LangCache
                         with LangCache(
                             server_url=settings.LANGCACHE_SERVER_URL,
@@ -247,8 +261,8 @@ class RAGService:
                             api_key=settings.LANGCACHE_API_KEY,
                         ) as lc:
                             lc.set(prompt=query_text, response=response_text)
-                     except: pass
-                
+                    except: pass
+
                 response_data = {"answer": response_text, "source": source}
 
         except Exception as e:
@@ -515,94 +529,136 @@ class RAGService:
         yield send_steps(steps)
         
         try:
-            # Perform retrieval
-            nodes = self.retriever.retrieve(query)
-            time.sleep(1.0)
-            
-            # Calculate best score
-            best_score = 0.0
-            if nodes:
-                best_score = max([node.score for node in nodes if node.score is not None] or [0.0])
-            
-            # DEBUG: Print all node scores
-            print(f"[RAG DEBUG] Query: {query}")
-            print(f"[RAG DEBUG] Best Score: {best_score}")
-            for i, node in enumerate(nodes[:3]):  # Show top 3
-                print(f"[RAG DEBUG] Node {i}: score={node.score}, text={node.get_content()[:100]}...")
-            
-            logger.info(f"RAG Best Score for '{query}': {best_score}")
-            
-            # Check content quality - detect irrelevant/empty content
+            # ── Multilingual: detect language + expand query ───────────────
+            ml_info = multilingual_service.process_query(query)
+            detected_lang  = ml_info["lang_name"]
+            detected_code  = ml_info["lang_code"]
+            is_multilingual = ml_info["is_multilingual"]
+            print(f"[ML] Detected: {detected_lang} ({detected_code}, conf={ml_info['confidence']:.2f})")
+            if is_multilingual:
+                print(f"[ML] Expanded query by {len(ml_info['expanded_query'])-len(query)} chars")
+
+            # ── Intent Classification ──────────────────────────────────────
+            # Tags the turn so the UI can offer a CTA (e.g. "See your recommendations")
+            # alongside the normal RAG answer.
+            # Primary: the trained classifier (ml/train_intent_classifier.py —
+            #   TF-IDF + Logistic Regression, 95.3% held-out accuracy). Fast,
+            #   local, no extra LLM round-trip.
+            # Fallback: the rule-based keyword matcher (intent_service.py),
+            #   used only if the trained model isn't loaded for some reason.
+            # Full LLM zero-shot classification is available separately via
+            # POST /api/v1/intent/classify.
+            try:
+                from app.services.intent_service import intent_service, SUGGESTED_ACTION
+                from app.services.ml_intent_classifier_service import ml_intent_classifier_service
+
+                if ml_intent_classifier_service.is_ready:
+                    trained = ml_intent_classifier_service.classify(query)
+                    intent_data = {
+                        **trained,
+                        "matched_keywords": [],
+                        "reasoning": f"Trained classifier (model {trained.get('model_version')})",
+                        "scheme_hints": intent_service._scheme_hints(query),
+                        "suggested_action": SUGGESTED_ACTION.get(trained["intent"], "rag_chat"),
+                    }
+                    print(f"[Intent/ML] {intent_data['intent']} (confidence={intent_data['confidence']}, "
+                          f"action={intent_data['suggested_action']})")
+                else:
+                    intent_result = intent_service.classify_fast(query)
+                    intent_data = intent_service.result_to_dict(intent_result)
+                    print(f"[Intent/rule-fallback] {intent_result.intent} (confidence={intent_result.confidence}, "
+                          f"action={intent_result.suggested_action})")
+
+                yield f'{json.dumps({"type": "intent", "data": intent_data})}\n'
+            except Exception as e:
+                logger.warning(f"Intent classification failed: {e}")
+
+            # ── Hybrid Retrieval (Dense + BM25 + Multilingual + Cross-Encoder Re-rank) ──
+            t_retr = time.time()
+            context_text, hybrid_chunks = hybrid_retriever.retrieve_text_context(
+                query=ml_info["expanded_query"],  # expanded for BM25 recall
+                pinecone_retriever=self.retriever,
+                top_k_final=5,
+                ml_info=ml_info,
+            )
+            time.sleep(0.3)   # Small yield pause for UI
+
+            # Summarise results for step logging
+            best_score = hybrid_chunks[0].score if hybrid_chunks else 0.0
+            dense_hits  = sum(1 for c in hybrid_chunks if c.dense_rank > 0)
+            bm25_hits   = sum(1 for c in hybrid_chunks if c.bm25_rank > 0)
+
+            print(f"[HYBRID RAG] Query: {query}")
+            print(f"[HYBRID RAG] Chunks returned: {len(hybrid_chunks)} | Best CE score: {best_score:.3f}")
+            print(f"[HYBRID RAG] Dense hits: {dense_hits} | BM25 hits: {bm25_hits}")
+            logger.info(f"Hybrid retrieval: {len(hybrid_chunks)} chunks in {time.time()-t_retr:.2f}s")
+
+            # ── Relevance decision ───────────────────────────────────────────
+            # Cross-encoder scores are logits (can be negative).
+            # ms-marco-MiniLM scores > 0 indicate relevance; < -3 = clearly irrelevant.
+            CE_THRESHOLD = -2.0
+
             def is_content_useful(content: str) -> bool:
-                """Check if retrieved content is actually useful."""
                 if not content or len(content.strip()) < 50:
                     return False
-                # Detect placeholder/empty content
-                useless_patterns = [
-                    "not available", "n/a", "no data", "coming soon",
-                    "under construction", "placeholder"
-                ]
+                useless_patterns = ["not available", "n/a", "no data", "coming soon",
+                                    "under construction", "placeholder"]
                 lower_content = content.lower()
-                for pattern in useless_patterns:
-                    if pattern in lower_content and len(content) < 200:
-                        return False
-                return True
+                return not any(p in lower_content and len(content) < 200 for p in useless_patterns)
+
+            best_text = hybrid_chunks[0].text if hybrid_chunks else ""
+            content_useful = is_content_useful(best_text)
+            print(f"[HYBRID RAG] Content useful: {content_useful} | CE threshold: {CE_THRESHOLD}")
             
-            # DECISION: Good Context vs Fallback
-            # Raised threshold to 0.85 to be stricter about relevance
-            SCORE_THRESHOLD = 0.85
-            
-            context_text = ""
-            source_label = "General Knowledge"
-            
-            # Check both score AND content quality
-            best_content = nodes[0].get_content() if nodes else ""
-            content_is_useful = is_content_useful(best_content)
-            
-            print(f"[RAG DEBUG] Content useful: {content_is_useful}")
-            
-            if best_score >= SCORE_THRESHOLD and content_is_useful:
-                # Good match found in RAG
+            if best_score >= CE_THRESHOLD and content_useful and hybrid_chunks:
+                # Good hybrid context found
                 analyze_step["status"] = "success"
                 yield send_steps(steps)
-                context_text = "\n".join([n.get_content() for n in nodes])
-                source_label = "Government Documents"
-                print(f"[RAG DEBUG] Using RAG context (score {best_score} >= {SCORE_THRESHOLD})")
+                context_text_final = context_text
+                lang_tag = f", {detected_lang}" if is_multilingual else ""
+                source_label = f"Hybrid RAG (Pinecone+BM25+CE{lang_tag})"
+                print(f"[HYBRID RAG] Using hybrid context (CE score {best_score:.3f} >= {CE_THRESHOLD})")
             else:
-                # Low score OR irrelevant content -> Fallback to Web Search
-                analyze_step["status"] = "completed" 
-                reason = f"score {best_score} < {SCORE_THRESHOLD}" if best_score < SCORE_THRESHOLD else "content not useful"
-                print(f"[RAG DEBUG] {reason}, triggering web search")
+                # Low relevance — fallback to web search
+                analyze_step["status"] = "completed"
+                reason = f"CE score {best_score:.3f} < {CE_THRESHOLD}" if best_score < CE_THRESHOLD else "content not useful"
+                print(f"[HYBRID RAG] {reason} — triggering web search")
                 
-                web_step = {"name": "Context Missing - Searching Web", "status": "in-progress", "timestamp": str(time.time())}
+                web_step = {"name": "Context Missing — Searching Web", "status": "in-progress", "timestamp": str(time.time())}
                 steps.append(web_step)
                 yield send_steps(steps)
-                
+
                 search_context = self._web_search(query)
-                context_text = search_context
-                time.sleep(1.0)
-                
-                print(f"[RAG DEBUG] Web search result: {len(search_context) if search_context else 0} chars")
-                
+                context_text_final = search_context
+                time.sleep(0.5)
+
+                print(f"[HYBRID RAG] Web search: {len(search_context) if search_context else 0} chars")
+
                 if search_context:
                     web_step["status"] = "success"
                     source_label = "Web Search"
                 else:
                     web_step["status"] = "failed"
                     source_label = "General Knowledge"
+                    context_text_final = ""
                 yield send_steps(steps)
-                
+
             # 5. Generate
             gen_step = {"name": f"Generating Answer ({source_label})", "status": "in-progress", "timestamp": str(time.time())}
             steps.append(gen_step)
             yield send_steps(steps)
-            
+
             chat_context = ""
             if history:
-                 chat_context = "\n".join([f"{msg.get('role', 'user')}: {msg.get('content', '')}" for msg in history[-4:]])
-            
-            # Prepend System Prompt
-            full_prompt = f"System Instructions:\n{self.SYSTEM_PROMPT}\n\nChat History:\n{chat_context}\n\nContext Information ({source_label}):\n{context_text}\n\nUser Question: {query}\n\nInstruction: Answer the question based on the Context Information above. Answer in English first."
+                chat_context = "\n".join([f"{msg.get('role', 'user')}: {msg.get('content', '')}" for msg in history[-4:]])
+
+            full_prompt = (
+                f"System Instructions:\n{self.SYSTEM_PROMPT}\n\n"
+                f"Chat History:\n{chat_context}\n\n"
+                f"Context Information ({source_label}):\n{context_text_final}\n\n"
+                f"User Question: {query}\n\n"
+                "Instruction: Answer the question based on the Context Information above. Answer in English first."
+            )
             if target_language and target_language != "English":
                 full_prompt += f" Then provide a translation in {target_language}."
             # Using Gemini Stream - SWITCHED TO BLOCKING + SIMULATED STREAM due to delta instability
@@ -621,7 +677,23 @@ class RAGService:
 
                 gen_step["status"] = "completed"
                 yield send_steps(steps, gen_step)
-                
+
+                # ── Groundedness scoring (trained classifier) ─────────────
+                # Soft/informational signal only — see ml_groundedness_service.py's
+                # documented false-positive limitation on heavily-reworded
+                # paraphrases. Only scored when we actually had retrieved
+                # context to check against (skipped for the general-knowledge
+                # fallback, where "groundedness" isn't a meaningful question).
+                try:
+                    if context_text_final:
+                        from app.services.ml_groundedness_service import ml_groundedness_service
+                        groundedness = ml_groundedness_service.score(context_text_final, full_text)
+                        if groundedness.get("grounded_probability") is not None:
+                            print(f"[Groundedness] probability={groundedness['grounded_probability']}")
+                            yield f'{json.dumps({"type": "groundedness", "data": groundedness})}\n'
+                except Exception as e:
+                    logger.warning(f"Groundedness scoring failed: {e}")
+
                 # 6. Generate TTS Audio (Bilingual)
                 yield from self._generate_tts_stream(full_text, steps, send_steps)
                 
@@ -653,9 +725,28 @@ class RAGService:
                     cache_update_step["status"] = "failed"
                 
                 yield send_steps(steps, cache_update_step)
-                    
+
+                # Log Metric — this is the main (non-cached) generation path;
+                # without this, /monitor/stats only ever saw cache hits and
+                # silently undercounted total queries / mis-derived cache_hit_rate.
+                from app.services.monitoring_service import monitoring_service
+                monitoring_service.log_query(
+                    query=query,
+                    source=source_label,
+                    latency_ms=(time.time() - float(start_step["timestamp"])) * 1000,
+                    language=target_language,
+                )
+
             except Exception as e:
                 logger.error(f"Generation Error: {e}")
+                from app.services.monitoring_service import monitoring_service
+                monitoring_service.log_query(
+                    query=query,
+                    source="Error",
+                    latency_ms=(time.time() - float(start_step["timestamp"])) * 1000,
+                    language=target_language,
+                    successful=False,
+                )
                 yield f'{json.dumps({"type": "error", "content": str(e)})}\n'
             return
 

@@ -71,9 +71,10 @@ export const Chatbot = ({ isOpen, onClose }: ChatbotProps) => {
     try {
       const targetLang = LANGUAGE_MAP[language] || "English";
 
-      // Call the FastAPI Backend
-      // Note: Ensure backend is running at http://localhost:8000
-      const response = await fetch("http://localhost:8000/api/v1/rag/query", {
+      // Call the FastAPI Backend via the dev proxy (see vite.config.ts) so this
+      // works both in dev and behind a production reverse proxy — a hardcoded
+      // absolute localhost URL here would silently break both.
+      const response = await fetch("/api/v1/rag/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

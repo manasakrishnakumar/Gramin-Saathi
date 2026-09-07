@@ -22,3 +22,14 @@ python-multipart==0.0.9
 plotly
 ddgs
 sarvamai
+langdetect==1.0.9
+# Hybrid RAG — inference-only, no fine-tuning
+sentence-transformers==2.7.0
+faiss-cpu==1.10.0
+rank-bm25==0.2.2
+# torch CPU-only (avoids CUDA DLL issues on Windows; 2.4.1 is latest stable cpu build)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1+cpu
+scipy==1.13.1
+scikit-learn==1.4.2
+transformers>=4.36.0,<4.45.0

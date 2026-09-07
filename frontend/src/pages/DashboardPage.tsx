@@ -101,9 +101,13 @@ export function DashboardPage() {
                                     <TableCell>
                                         <span className={cn(
                                             "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset",
-                                            log.Source.includes("RAG") ? "bg-blue-50 text-blue-700 ring-blue-700/10" :
-                                                log.Source.includes("Web") ? "bg-purple-50 text-purple-700 ring-purple-700/10" :
-                                                    "bg-green-50 text-green-700 ring-green-600/20"
+                                            // "Error" used to fall into the catch-all branch below and render as a
+                                            // green "healthy" badge, hiding failed queries from this table.
+                                            log.Source.includes("Error") ? "bg-red-50 text-red-700 ring-red-700/10" :
+                                                log.Source.includes("RAG") ? "bg-blue-50 text-blue-700 ring-blue-700/10" :
+                                                    log.Source.includes("Web") ? "bg-purple-50 text-purple-700 ring-purple-700/10" :
+                                                        log.Source.includes("Cache") ? "bg-green-50 text-green-700 ring-green-600/20" :
+                                                            "bg-gray-50 text-gray-700 ring-gray-600/20"
                                         )}>
                                             {log.Source}
                                         </span>

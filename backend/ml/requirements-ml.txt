@@ -1,0 +1,27 @@
+# Extra dependencies for the ML training scripts under backend/ml/ and
+# their serving-side counterparts under app/services/ml_*.py.
+#
+# As it turns out: NONE. Everything needed (scikit-learn, sentence-transformers,
+# torch, pandas via sentence-transformers' own deps) was already in the
+# existing backend/requirements.txt.
+#
+# An earlier version of this file listed `lightgbm` for the Phase 2 ranker.
+# It was dropped: on this Windows dev environment, loading a scikit-learn
+# model (as the intent classifier service does) and then calling
+# LightGBM's native predict in the same process reliably crashed with
+# "OSError: exception: access violation reading 0x0..." — a conflict
+# between LightGBM's bundled OpenMP runtime and scikit-learn/scipy's, a
+# known class of issue on Windows. Reproduced directly while building
+# this (see ml/README.md). Switched the ranker to scikit-learn's own
+# HistGradientBoostingClassifier instead, which needs no new dependency
+# and has no such conflict since it's the same native stack already used
+# elsewhere in this app.
+#
+# One genuinely new dependency was added since: sklearn-crfsuite, for the
+# CRF-based NER model (ml/train_ner_model.py). Verified compatible in the
+# same process as the sklearn/sentence-transformers models above (no
+# repeat of the lightgbm conflict) before committing to it.
+#
+#   backend/venv/Scripts/python.exe -m pip install sklearn-crfsuite
+
+sklearn-crfsuite>=0.5

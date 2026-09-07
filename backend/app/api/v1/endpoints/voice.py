@@ -145,6 +145,18 @@ async def converse(file: UploadFile = File(...), language_code: str = Form("unkn
         logger.error(f"STT Error: {e}")
         raise HTTPException(status_code=500, detail=f"STT Error: {e}")
 
+    # 1b. Voice transcription quality check (trained classifier) — informational
+    # flag only, never blocks the flow. Only meaningful for English text (the
+    # classifier's reference vocabulary is English) — see
+    # ml_voice_quality_service.py's documented false-positive limitation.
+    voice_quality = None
+    if detected_lang_code == "en":
+        try:
+            from app.services.ml_voice_quality_service import ml_voice_quality_service
+            voice_quality = ml_voice_quality_service.check(query_text)
+        except Exception as e:
+            logger.warning(f"Voice quality check failed: {e}")
+
     # 2. RAG - Get response with bilingual translation
     response_text = ""
     target_language = LANGUAGE_NAMES.get(detected_lang_code, "Hindi")
@@ -255,7 +267,8 @@ async def converse(file: UploadFile = File(...), language_code: str = Form("unkn
             "audio_native": audio_native,  # Native language audio (if available)
             "encoding": "base64",
             "detected_language": detected_lang_code,
-            "tts_language": detected_script or "en-IN"
+            "tts_language": detected_script or "en-IN",
+            "voice_quality": voice_quality,
         }
     except Exception as e:
         logger.error(f"TTS Error: {e}")
@@ -263,7 +276,8 @@ async def converse(file: UploadFile = File(...), language_code: str = Form("unkn
         # Fallback: Return text even if TTS fails
         return {
             "query": query_text,
-            "response": response_text, 
+            "response": response_text,
             "error": f"TTS Error: {e}",
-            "detected_language": detected_lang_code
+            "detected_language": detected_lang_code,
+            "voice_quality": voice_quality,
         }

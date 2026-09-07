@@ -1,0 +1,22 @@
+{
+  "model": "sklearn-crfsuite CRF (lbfgs)",
+  "version": "v1",
+  "trained_at": "2026-08-29T17:20:11",
+  "train_sentences": 134,
+  "test_sentences": 34,
+  "train_seconds": 0.25,
+  "weighted_f1": 1.0,
+  "entity_types": [
+    "B-AGE",
+    "B-AMOUNT",
+    "B-MINISTRY",
+    "B-PCT",
+    "B-SCHEME",
+    "I-AGE",
+    "I-AMOUNT",
+    "I-MINISTRY",
+    "I-SCHEME"
+  ],
+  "training_data": "Templated sentences built from real SCHEME_REGISTRY names/ministries/descriptions/criteria, BIO tags assigned by construction. See ml/data/generate_ner_dataset.py.",
+  "artifact": "app\\models\\ner_crf_v1.pkl"
+}

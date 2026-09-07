@@ -72,11 +72,18 @@ class MonitoringService:
                     stats["sources"][source] = count
 
                 # Cache Hit Rate
-                # 'RAG System' => Miss, anything else => Hit
+                # Count sources that are actually cache hits ("Local Cache (SQLite)",
+                # "Redis LangCache"); everything else (Hybrid RAG generation, Web
+                # Search, General Knowledge, Error) is a miss.
+                # NOTE: this previously looked for a literal "RAG System (Gemini +
+                # Pinecone)" source string that no code path ever logs, so `rag_count`
+                # was always 0 and cache_hit_rate was always reported as 100%.
                 total = stats["total_queries"]
                 if total > 0:
-                    rag_count = stats["sources"].get("RAG System (Gemini + Pinecone)", 0)
-                    hits = total - rag_count
+                    hits = sum(
+                        count for source, count in stats["sources"].items()
+                        if source.startswith(("Local Cache", "Redis LangCache"))
+                    )
                     stats["cache_hit_rate"] = round((hits / total) * 100, 1)
 
         except Exception as e:

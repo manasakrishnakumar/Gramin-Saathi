@@ -1,0 +1,18 @@
+{
+  "model": "sklearn HistGradientBoostingClassifier",
+  "version": "v1",
+  "trained_at": "2026-08-29T17:14:03",
+  "train_rows": 162,
+  "test_rows": 54,
+  "train_seconds": 2.72,
+  "accuracy": 0.9815,
+  "roc_auc": 1.0,
+  "features": [
+    "word_overlap_ratio",
+    "embedding_cosine_sim",
+    "length_ratio",
+    "numeric_mismatch"
+  ],
+  "training_data": "SYNTHETIC \u2014 templated grounded/ungrounded pairs built from SCHEME_REGISTRY descriptions (topic mismatch, fabricated numbers, off-topic filler). See ml/data/generate_groundedness_dataset.py.",
+  "artifact": "app\\models\\groundedness_classifier_v1.joblib"
+}

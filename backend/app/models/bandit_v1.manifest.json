@@ -1,0 +1,14 @@
+{
+  "model": "LinUCB contextual bandit (online learning)",
+  "version": "v1",
+  "trained_at": "2026-08-29T17:24:32",
+  "simulated_rounds": 3000,
+  "train_seconds": 5.77,
+  "early_window_regret": 0.069,
+  "late_window_regret": 0.0236,
+  "early_window_oracle_agreement": 0.315,
+  "late_window_oracle_agreement": 0.335,
+  "converged": true,
+  "note": "SIMULATED reward stream (same weak-supervision heuristic as the Phase 2 bootstrap ranker), not real user behavior. Demonstrates the online-learning mechanism converges given a reward signal \u2014 swap in real click events from ml_feedback_service.py via ml_bandit_service.update() to make this real.",
+  "artifact": "app\\models\\bandit_v1_state.json"
+}

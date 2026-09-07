@@ -1,0 +1,13 @@
+{
+  "model": "cross-encoder fine-tuned from cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "version": "v1",
+  "trained_at": "2026-08-29T16:24:58",
+  "train_examples": 187,
+  "test_examples": 47,
+  "train_seconds": 31.0,
+  "holdout_sample_accuracy": 1.0,
+  "training_data": "SYNTHETIC \u2014 templated queries against SCHEME_REGISTRY descriptions, not real scraped documents or real user queries. See ml/README.md.",
+  "artifact": "app\\models\\reranker_v1",
+  "base_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "not_wired_in": "hybrid_retriever.py still uses the pretrained base model unchanged \u2014 this artifact is standalone until explicitly swapped in behind a flag."
+}

@@ -1,0 +1,11 @@
+{
+  "model": "sklearn IsolationForest (unsupervised)",
+  "version": "v1",
+  "trained_at": "2026-08-29T17:06:41",
+  "train_rows": 1000,
+  "train_seconds": 0.29,
+  "contamination": 0.05,
+  "flagged_on_training_set_pct": 0.05,
+  "training_data": "Realistic synthetic profile distribution (data/generate_profile_distribution.py) \u2014 unsupervised, no labels used or needed.",
+  "artifact": "app\\models\\anomaly_detector_v1.joblib"
+}

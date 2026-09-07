@@ -1,0 +1,22 @@
+{
+  "model": "sklearn LogisticRegression",
+  "version": "v1",
+  "trained_at": "2026-08-29T17:28:39",
+  "train_rows": 236,
+  "test_rows": 79,
+  "train_seconds": 0.009,
+  "accuracy": 0.7468,
+  "roc_auc": 0.8599,
+  "vocab_size": 290,
+  "features": [
+    "avg_word_length",
+    "oov_rate",
+    "repeated_word_ratio",
+    "non_alpha_ratio",
+    "unique_word_ratio",
+    "num_words",
+    "bigram_oov_rate"
+  ],
+  "training_data": "SYNTHETIC \u2014 real sentences from this codebase, corrupted with simulated ASR-style noise (word deletion/duplication/shuffling, char substitution, filler insertion). No real Sarvam STT transcripts used. See ml/data/generate_transcript_quality_dataset.py.",
+  "artifact": "app\\models\\voice_quality_classifier_v1.joblib"
+}

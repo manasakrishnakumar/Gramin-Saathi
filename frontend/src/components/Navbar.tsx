@@ -31,6 +31,12 @@ export const Navbar = () => {
     { label: "Contact", href: "#contact" },
   ];
 
+  const routeLinks = [
+    { label: "Chat", to: "/chat" },
+    { label: "Schemes", to: "/recommend" },
+  ];
+
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
@@ -54,7 +60,10 @@ export const Navbar = () => {
               Home
             </Link>
             <Link to="/chat" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
-              Chat Assistant
+              Chat
+            </Link>
+            <Link to="/recommend" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Schemes
             </Link>
             {navLinks.map((link) => (
               <a

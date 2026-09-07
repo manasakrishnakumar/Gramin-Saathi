@@ -21,9 +21,15 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   // Auto-detect language on mount (if valid detection found)
   useEffect(() => {
-    // Check if we should override? Or just log? 
-    // Requirement: "when i enter the webstie it shoudl ask permission... and based on that... query in english+that reginialn language"
-    // Ideally we set it once.
+    // Only auto-detect when there's no saved preference yet. Without this
+    // guard, detection re-runs on every full page load and — if it
+    // resolves — unconditionally overwrites whatever language is currently
+    // set, silently discarding any saved/explicit choice a few hundred ms
+    // after the page loads. That also makes the `localStorage.setItem`
+    // effect above pointless: whatever it persisted gets clobbered again
+    // on the very next load.
+    if (localStorage.getItem("language")) return;
+
     const initLang = async () => {
       // Dynamic import to avoid cycles/bundling issues if any
       const module = await import("@/services/geolocation");

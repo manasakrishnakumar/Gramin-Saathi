@@ -1,0 +1,13 @@
+{
+  "model": "sklearn HistGradientBoostingClassifier",
+  "version": "v1-SYNTHETIC-DEMO",
+  "trained_at": "2026-08-29T17:02:27",
+  "train_rows": 1316,
+  "test_rows": 439,
+  "train_seconds": 2.16,
+  "roc_auc": 0.6479,
+  "average_precision": 0.8794,
+  "disclaimer": "SYNTHETIC DEMO MODEL \u2014 trained entirely on fabricated/simulated data, not real application outcomes. This project has no access to real government approval/rejection data. Any score from this model is a demonstration of the modeling technique only and must never be presented to a real user as a real prediction of their chances. See backend/ml/PHASE3_NOTES.md.",
+  "training_data": "100% SYNTHETIC \u2014 fabricated outcome labels from a hand-written heuristic, not real government decisions. See ml/data/generate_outcome_bootstrap.py and ml/PHASE3_NOTES.md.",
+  "artifact": "app\\models\\outcome_model_v1_SYNTHETIC_DEMO.joblib"
+}

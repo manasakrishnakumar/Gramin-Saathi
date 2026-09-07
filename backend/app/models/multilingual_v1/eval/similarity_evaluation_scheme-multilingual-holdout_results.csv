@@ -1,0 +1,4 @@
+epoch,steps,cosine_pearson,cosine_spearman,euclidean_pearson,euclidean_spearman,manhattan_pearson,manhattan_spearman,dot_pearson,dot_spearman
+0,-1,nan,nan,nan,nan,nan,nan,nan,nan
+1,-1,nan,nan,nan,nan,nan,nan,nan,nan
+2,-1,nan,nan,nan,nan,nan,nan,nan,nan

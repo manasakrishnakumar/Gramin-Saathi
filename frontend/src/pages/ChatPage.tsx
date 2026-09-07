@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import ReactMarkdown from 'react-markdown';
-import { Send, Plus, MessageSquare, Loader2, Bot, User, ChevronRight, CheckCircle2, ChevronDown, Trash2, Sparkles } from "lucide-react";
+import { Send, Plus, MessageSquare, Loader2, Bot, User, ChevronRight, CheckCircle2, ChevronDown, Trash2, Sparkles, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@clerk/clerk-react";
@@ -42,6 +42,19 @@ interface Step {
     timestamp: string;
 }
 
+interface IntentData {
+    intent: string;
+    confidence: number;
+    method: string;              // "trained_classifier" | "rule_based"
+    suggested_action?: string;
+    model_version?: string | null;
+}
+
+interface GroundednessData {
+    grounded_probability: number | null;
+    is_likely_grounded?: boolean;
+}
+
 interface Message {
     id: string;
     role: 'user' | 'assistant';
@@ -49,6 +62,8 @@ interface Message {
     steps?: Step[];
     source?: string;
     score?: number;
+    intent?: IntentData;
+    groundedness?: GroundednessData;
 }
 
 interface ChatSession {
@@ -67,44 +82,111 @@ const LANGUAGE_MAP: Record<string, string> = {
 
 // --- Components ---
 
+// Maps specific step names to badge metadata for hybrid RAG pipeline steps
+const HYBRID_STEP_META: Record<string, { label: string; color: string }> = {
+    "Hybrid Retrieval (Dense + BM25 + Re-rank)": { label: "Hybrid RAG", color: "text-violet-400 bg-violet-500/10 border-violet-500/20" },
+    "Analyzing Documents (RAG)":                 { label: "Retrieval",  color: "text-blue-400 bg-blue-500/10 border-blue-500/20" },
+    "Querying Hybrid RAG System":                { label: "RAG",        color: "text-violet-400 bg-violet-500/10 border-violet-500/20" },
+};
+
 const ProcessSteps = ({ steps }: { steps: Step[] }) => {
     const [isOpen, setIsOpen] = useState(true);
 
     if (!steps || steps.length === 0) return null;
 
+    const isHybridPipeline = steps.some(s =>
+        s.name.includes("Hybrid") || s.name.includes("BM25") || s.name.includes("Cross-Encoder")
+    );
+
     return (
-        <div className="mb-4 rounded-lg border bg-muted/30 p-3 text-sm">
+        <div className={cn("mb-4 rounded-lg border p-3 text-sm", isHybridPipeline ? "bg-violet-500/5 border-violet-500/20" : "bg-muted/30")}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex w-full items-center justify-between text-muted-foreground hover:text-foreground mb-2"
             >
                 <span className="font-medium text-xs uppercase tracking-wide flex items-center gap-2">
                     <Loader2 className="h-3 w-3 animate-spin duration-[3s]" />
-                    Thinking Process
+                    {isHybridPipeline ? "Hybrid RAG Pipeline" : "Thinking Process"}
+                    {isHybridPipeline && (
+                        <span className="text-[10px] bg-violet-500/15 text-violet-400 border border-violet-500/20 px-1.5 py-0.5 rounded-full font-semibold normal-case tracking-normal">
+                            Dense + BM25 + Re-rank
+                        </span>
+                    )}
                 </span>
                 {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
             </button>
 
             {isOpen && (
                 <div className="space-y-3 pl-1 pt-1 animate-in fade-in slide-in-from-top-2">
-                    {steps.map((step, idx) => (
-                        <div key={idx} className="flex items-start gap-3">
-                            {step.status === 'completed' || step.status === 'success' ? (
-                                <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
-                            ) : step.status === 'failed' || step.status === 'error' ? (
-                                <div className="h-4 w-4 rounded-full border-2 border-red-500 bg-red-500/20 mt-0.5 shrink-0" />
-                            ) : (
-                                <div className="h-4 w-4 rounded-full border-2 border-primary border-t-transparent animate-spin mt-0.5 shrink-0" />
-                            )}
-                            <div className="flex flex-col">
-                                <span className={cn("text-sm", step.status === 'error' ? "text-red-500" : "text-foreground/80")}>
-                                    {step.name}
-                                </span>
+                    {steps.map((step, idx) => {
+                        const hybridMeta = HYBRID_STEP_META[step.name];
+                        return (
+                            <div key={idx} className="flex items-start gap-3">
+                                {step.status === 'completed' || step.status === 'success' ? (
+                                    <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                                ) : step.status === 'failed' || step.status === 'error' ? (
+                                    <div className="h-4 w-4 rounded-full border-2 border-red-500 bg-red-500/20 mt-0.5 shrink-0" />
+                                ) : (
+                                    <div className="h-4 w-4 rounded-full border-2 border-primary border-t-transparent animate-spin mt-0.5 shrink-0" />
+                                )}
+                                <div className="flex flex-col gap-0.5">
+                                    <span className={cn("text-sm", step.status === 'error' ? "text-red-500" : "text-foreground/80")}>
+                                        {step.name}
+                                    </span>
+                                    {hybridMeta && (
+                                        <span className={cn("text-[10px] px-1.5 py-0.5 rounded-full border w-fit font-semibold", hybridMeta.color)}>
+                                            {hybridMeta.label}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
+        </div>
+    );
+};
+
+// Shows what the trained intent classifier (ml/train_intent_classifier.py)
+// read this message as — proves the trained model, not just the rule-based
+// fallback, is actually driving this. See backend/ml/README.md.
+const IntentBadge = ({ intent }: { intent: IntentData }) => {
+    const isTrained = intent.method === "trained_classifier";
+    const label = intent.intent.replace(/_/g, " ");
+    return (
+        <div
+            className={cn(
+                "flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-full border w-fit font-medium",
+                isTrained
+                    ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
+                    : "text-muted-foreground bg-muted/30 border-border"
+            )}
+            title={isTrained ? `Trained ML classifier (model ${intent.model_version ?? "?"})` : "Rule-based fallback"}
+        >
+            <Sparkles className="h-2.5 w-2.5" />
+            {isTrained ? "ML" : "rule"} · {label} ({Math.round(intent.confidence * 100)}%)
+        </div>
+    );
+};
+
+// Trained groundedness classifier's read on this answer (ml/train_groundedness_classifier.py).
+// Deliberately soft: only shows below a conservative confidence threshold,
+// and phrased as a suggestion, not a claim the answer is wrong — the
+// classifier has a known false-positive tendency on heavily-reworded but
+// correct paraphrases (see ml_groundedness_service.py docstring), so a
+// louder/more confident UI treatment than this would be misleading.
+const GROUNDEDNESS_NUDGE_THRESHOLD = 0.15;
+
+const GroundednessNote = ({ groundedness }: { groundedness: GroundednessData }) => {
+    if (groundedness.grounded_probability === null || groundedness.grounded_probability === undefined) return null;
+    if (groundedness.grounded_probability >= GROUNDEDNESS_NUDGE_THRESHOLD) return null;
+    return (
+        <div
+            className="flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-full border w-fit font-medium text-amber-400 bg-amber-500/10 border-amber-500/20"
+            title="Trained ML classifier — experimental signal, may have false positives on heavily reworded answers"
+        >
+            <AlertTriangle className="h-2.5 w-2.5" /> ML: consider verifying with the official source
         </div>
     );
 };
@@ -159,8 +241,12 @@ export default function ChatPage() {
     }, [sessions, storageKey]);
 
     useEffect(() => {
+        // `messages` must be a dependency too, not just `sessions` — sessions
+        // only gets updated once at the end of a streamed response, so
+        // without this the view wouldn't auto-scroll while tokens are
+        // streaming in, only once the full answer finishes.
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [currentSessionId, sessions]);
+    }, [currentSessionId, sessions, messages]);
 
 
     // --- Actions ---
@@ -260,6 +346,8 @@ export default function ChatPage() {
             const assistantId = (Date.now() + 1).toString();
             let assistantContent = "";
             let assistantSteps: any[] = [];
+            let assistantIntent: IntentData | undefined = undefined;
+            let assistantGroundedness: GroundednessData | undefined = undefined;
 
             setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: "", steps: [] }]);
 
@@ -296,48 +384,75 @@ export default function ChatPage() {
                 });
             };
 
+            // Handles one decoded NDJSON line: updates local accumulators + UI state.
+            const processLine = async (line: string) => {
+                if (!line.trim()) return;
+                try {
+                    const data = JSON.parse(line);
+
+                    if (data.type === 'token') {
+                        assistantContent += data.content;
+                    } else if (data.type === 'step') {
+                        assistantSteps = data.data;
+                        setCurrentSteps(assistantSteps);
+                    } else if (data.type === 'intent') {
+                        // Emitted by rag_service.py — the trained intent classifier's
+                        // read on this turn (ml/train_intent_classifier.py, 95.3% held-out
+                        // accuracy), falls back to rule-based only if that model didn't load.
+                        assistantIntent = data.data;
+                    } else if (data.type === 'groundedness') {
+                        // Trained classifier's read on whether this answer is
+                        // supported by its retrieved context. Soft signal —
+                        // see ml_groundedness_service.py's documented
+                        // false-positive limitation on heavy paraphrasing —
+                        // so the UI only nudges on a low-confidence score,
+                        // never a hard "this is wrong" claim.
+                        assistantGroundedness = data.data;
+                    } else if (data.type === 'error') {
+                        console.error("Stream error:", data.content);
+                    } else if (data.type === 'audio') {
+                        // Play audio response (English first, then native)
+                        console.log("Received audio data from stream");
+                        if (data.audio) {
+                            console.log("Playing English audio...");
+                            await playAudio(data.audio);
+                        }
+                        if (data.audio_native) {
+                            console.log("Playing native language audio...");
+                            await playAudio(data.audio_native);
+                        }
+                    }
+
+                    // Update UI
+                    setMessages(prev => prev.map(m =>
+                        m.id === assistantId
+                            ? { ...m, content: assistantContent, steps: assistantSteps, intent: assistantIntent, groundedness: assistantGroundedness }
+                            : m
+                    ));
+
+                } catch (e) {
+                    console.warn("Failed to parse JSON line:", line);
+                }
+            };
+
+            // NOTE: a single NDJSON line can be split across two reader.read()
+            // chunks (chunk boundaries don't align with newlines). `buffer`
+            // carries any trailing incomplete line over to the next read so we
+            // never JSON.parse a half-received line and silently drop it.
+            let buffer = "";
             while (true) {
                 const { done, value } = await reader.read();
-                if (done) break;
+                if (done) {
+                    if (buffer.trim()) await processLine(buffer);
+                    break;
+                }
 
-                const chunk = decoder.decode(value, { stream: true });
-                const lines = chunk.split('\n');
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop() ?? ""; // last segment may be incomplete — hold it back
 
                 for (const line of lines) {
-                    if (!line.trim()) continue;
-                    try {
-                        const data = JSON.parse(line);
-
-                        if (data.type === 'token') {
-                            assistantContent += data.content;
-                        } else if (data.type === 'step') {
-                            assistantSteps = data.data;
-                            setCurrentSteps(assistantSteps);
-                        } else if (data.type === 'error') {
-                            console.error("Stream error:", data.content);
-                        } else if (data.type === 'audio') {
-                            // Play audio response (English first, then native)
-                            console.log("Received audio data from stream");
-                            if (data.audio) {
-                                console.log("Playing English audio...");
-                                await playAudio(data.audio);
-                            }
-                            if (data.audio_native) {
-                                console.log("Playing native language audio...");
-                                await playAudio(data.audio_native);
-                            }
-                        }
-
-                        // Update UI
-                        setMessages(prev => prev.map(m =>
-                            m.id === assistantId
-                                ? { ...m, content: assistantContent, steps: assistantSteps }
-                                : m
-                        ));
-
-                    } catch (e) {
-                        console.warn("Failed to parse JSON line:", line);
-                    }
+                    await processLine(line);
                 }
             }
 
@@ -354,7 +469,7 @@ export default function ChatPage() {
                         return {
                             ...s,
                             title: newTitle,
-                            messages: [...newMessages, { id: assistantId, role: 'assistant', content: assistantContent, steps: assistantSteps }],
+                            messages: [...newMessages, { id: assistantId, role: 'assistant', content: assistantContent, steps: assistantSteps, intent: assistantIntent, groundedness: assistantGroundedness }],
                             updatedAt: Date.now()
                         };
                     }
@@ -515,6 +630,11 @@ export default function ChatPage() {
 
                                                     <div className="rounded-2xl rounded-tl-none px-4 py-3 bg-card border shadow-sm prose dark:prose-invert prose-sm max-w-none">
                                                         <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-2 flex-wrap mt-1">
+                                                        {msg.intent && <IntentBadge intent={msg.intent} />}
+                                                        {msg.groundedness && <GroundednessNote groundedness={msg.groundedness} />}
                                                     </div>
                                                 </>
                                             )}

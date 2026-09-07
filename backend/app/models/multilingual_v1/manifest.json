@@ -1,0 +1,14 @@
+{
+  "model": "multilingual bi-encoder fine-tuned from paraphrase-multilingual-MiniLM-L12-v2",
+  "version": "v1",
+  "trained_at": "2026-08-29T16:32:44",
+  "train_examples": 158,
+  "test_examples": 40,
+  "train_seconds": 168.6,
+  "holdout_top1_retrieval_accuracy": 0.9,
+  "base_model_holdout_top1_retrieval_accuracy": 0.8,
+  "training_data": "SYNTHETIC \u2014 templated Hinglish/English queries against SCHEME_REGISTRY descriptions, not authentic native-script text or real user queries. See ml/README.md.",
+  "artifact": "app\\models\\multilingual_v1",
+  "base_model": "paraphrase-multilingual-MiniLM-L12-v2",
+  "not_wired_in": "multilingual_service.py still uses the pretrained base model unchanged \u2014 this artifact is standalone until explicitly swapped in behind a flag."
+}

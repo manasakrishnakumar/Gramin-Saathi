@@ -1,0 +1,70 @@
+{
+  "model": "tfidf+logistic_regression",
+  "version": "v1",
+  "trained_at": "2026-08-29T16:23:35",
+  "train_examples": 190,
+  "test_examples": 64,
+  "train_seconds": 0.119,
+  "accuracy": 0.9531,
+  "macro_f1": 0.954,
+  "per_class": {
+    "application_process": {
+      "precision": 1.0,
+      "recall": 0.9285714285714286,
+      "f1-score": 0.9629629629629629,
+      "support": 14.0
+    },
+    "eligibility_check": {
+      "precision": 0.8947368421052632,
+      "recall": 1.0,
+      "f1-score": 0.9444444444444444,
+      "support": 17.0
+    },
+    "general_query": {
+      "precision": 1.0,
+      "recall": 0.8571428571428571,
+      "f1-score": 0.9230769230769231,
+      "support": 7.0
+    },
+    "greeting_identity": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 7.0
+    },
+    "scheme_information": {
+      "precision": 0.9090909090909091,
+      "recall": 1.0,
+      "f1-score": 0.9523809523809523,
+      "support": 10.0
+    },
+    "scheme_recommendation": {
+      "precision": 1.0,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.9411764705882353,
+      "support": 9.0
+    },
+    "macro avg": {
+      "precision": 0.967304625199362,
+      "recall": 0.9457671957671957,
+      "f1-score": 0.9540069589089198,
+      "support": 64.0
+    },
+    "weighted avg": {
+      "precision": 0.957834928229665,
+      "recall": 0.953125,
+      "f1-score": 0.9530152071512366,
+      "support": 64.0
+    }
+  },
+  "labels": [
+    "application_process",
+    "eligibility_check",
+    "general_query",
+    "greeting_identity",
+    "scheme_information",
+    "scheme_recommendation"
+  ],
+  "training_data": "SYNTHETIC \u2014 templated queries, not real user data. See ml/README.md.",
+  "artifact": "app\\models\\intent_classifier_v1.joblib"
+}

@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import ChatPage from "./pages/ChatPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import RecommendPage from "./pages/RecommendPage";
 import NotFound from "./pages/NotFound";
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -32,6 +33,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/chat" element={<ChatPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/recommend" element={<RecommendPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

@@ -83,3 +83,17 @@ faiss_metadata.pkl
 # OS
 .DS_Store
 Thumbs.db
+
+# ML model binaries (large files — distribute separately via releases/model registry)
+*.joblib
+*.pkl
+*.safetensors
+backend/app/models/multilingual_v1/model.safetensors
+backend/app/models/reranker_v1/model.safetensors
+
+# Large binary/media files
+*.pdf
+Gramin_Saathi_Full_Project_Report.pdf
+
+# Claude / Antigravity IDE cache
+.claude/
