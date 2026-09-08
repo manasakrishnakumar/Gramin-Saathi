@@ -71,7 +71,6 @@ class SarvamTTSService:
         
         if native_portions:
             result = ' '.join(native_portions)
-            print(f"[TTS DEBUG] Extracted native text: {result[:100]}...")
             return result
         
         # Fallback to original text if no native portions found
@@ -99,24 +98,43 @@ class SarvamTTSService:
                 text = truncated[:last_end + 1]
             else:
                 text = truncated + "..."
-            print(f"TTS text truncated from {original_length} to {len(text)} chars")
+            logger.info(f"TTS text truncated from {original_length} to {len(text)} chars")
         
-        print(f"[TTS DEBUG] Final TTS text ({language_code}): {text[:200]}...")
-        
-        response = self.client.text_to_speech.convert(
-            text=text,
-            target_language_code=language_code,
-            speaker="anushka",
-            pitch=0,
-            pace=1,
-            loudness=1,
-            speech_sample_rate=22050,
-            enable_preprocessing=True,
-            model="bulbul:v2"
-        )
-        
+        try:
+            logger.info(f"[TTS DEBUG] Final TTS text ({language_code}) length: {len(text)}")
+        except Exception:
+            pass
+
+        # bulbul:v3 compatible speaker (priya supports both en-IN and Indian languages)
+        speaker = "priya"
+        try:
+            response = self.client.text_to_speech.convert(
+                text=text,
+                language_code=language_code,
+                speaker=speaker,
+                pitch=0,
+                pace=1.0,
+                loudness=1.5,
+                speech_sample_rate=22050,
+                enable_preprocessing=True,
+                model="bulbul:v3"
+            )
+        except TypeError:
+            # Fallback: older SDK version — try positional keyword
+            response = self.client.text_to_speech.convert(
+                text=text,
+                target_language_code=language_code,
+                speaker=speaker,
+                pitch=0,
+                pace=1.0,
+                loudness=1.5,
+                speech_sample_rate=22050,
+                enable_preprocessing=True,
+                model="bulbul:v3"
+            )
+
         if response.audios and len(response.audios) > 0:
-            print(f"[TTS DEBUG] Audio generated, length: {len(response.audios[0])} chars")
+            logger.info(f"[TTS] Audio generated for {language_code}, length={len(response.audios[0])}")
             return response.audios[0]
         else:
             logger.error("TTS response has no audio data")

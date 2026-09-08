@@ -197,6 +197,11 @@ export default function ChatPage() {
     const [sessions, setSessions] = useState<ChatSession[]>([]);
     const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
+    const [messages, setMessages] = useState<any[]>([]);
+    const [input, setInput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [currentSteps, setCurrentSteps] = useState<any[]>([]);
+    const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     // --- Persistence ---
@@ -248,7 +253,6 @@ export default function ChatPage() {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [currentSessionId, sessions, messages]);
 
-
     // --- Actions ---
 
     const createNewChat = () => {
@@ -271,18 +275,11 @@ export default function ChatPage() {
 
     const activeSession = sessions.find(s => s.id === currentSessionId);
 
-    // --- Manual State Management ---
-    const [messages, setMessages] = useState<any[]>(activeSession?.messages || []);
-    const [input, setInput] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [currentSteps, setCurrentSteps] = useState<any[]>([]);
-
-    // Language Detection State
-    const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null);
-
     useEffect(() => {
         if (activeSession) {
             setMessages(activeSession.messages || []);
+        } else {
+            setMessages([]);
         }
     }, [activeSession]);
 

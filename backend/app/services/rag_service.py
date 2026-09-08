@@ -20,6 +20,41 @@ from app.services.multilingual_service import multilingual_service
 
 logger = logging.getLogger(__name__)
 
+class GeminiEmbedding768(GeminiEmbedding):
+    """Ensures embeddings are strictly 768 dimensions to match the Pinecone index."""
+    def _get_query_embedding(self, query: str) -> list[float]:
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=settings.GEMINI_API_KEY)
+            res = genai.embed_content(
+                model=settings.EMBEDDING_MODEL,
+                content=query,
+                task_type="retrieval_query",
+                output_dimensionality=768,
+            )
+            return res["embedding"]
+        except Exception:
+            emb = super()._get_query_embedding(query)
+            return emb[:768] if len(emb) > 768 else emb
+
+    def _get_text_embedding(self, text: str) -> list[float]:
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=settings.GEMINI_API_KEY)
+            res = genai.embed_content(
+                model=settings.EMBEDDING_MODEL,
+                content=text,
+                task_type="retrieval_document",
+                output_dimensionality=768,
+            )
+            return res["embedding"]
+        except Exception:
+            emb = super()._get_text_embedding(text)
+            return emb[:768] if len(emb) > 768 else emb
+
+    def _get_text_embeddings(self, texts: list[str]) -> list[list[float]]:
+        return [self._get_text_embedding(t) for t in texts]
+
 class RAGService:
     def __init__(self):
         self._init_llm()
@@ -45,7 +80,7 @@ class RAGService:
 
     def _init_llm(self):
         self.llm = Gemini(model_name=settings.LLM_MODEL_FULL, api_key=settings.GEMINI_API_KEY, system_prompt=self.SYSTEM_PROMPT)
-        self.embed_model = GeminiEmbedding(model_name=settings.EMBEDDING_MODEL, api_key=settings.GEMINI_API_KEY)
+        self.embed_model = GeminiEmbedding768(model_name=settings.EMBEDDING_MODEL, api_key=settings.GEMINI_API_KEY)
         
         # Configure global settings
         Settings.llm = self.llm
@@ -66,6 +101,36 @@ class RAGService:
         self.retriever = self.index.as_retriever(similarity_top_k=10)  # Fetch more for fusion
         self.query_engine = self.index.as_query_engine(streaming=False)
         logger.info("Vector store initialised (Pinecone). Hybrid retriever ready (lazy-loaded).")
+
+        # Load seed schemes (Karnataka Shakti, PM Kisan, etc.) into hybrid retriever (BM25 + FAISS)
+        seed_path = settings.DATA_DIR / "seed_schemes.json"
+        if seed_path.exists():
+            try:
+                import json
+                from app.services.hybrid_retriever import hybrid_retriever
+                with open(seed_path, "r", encoding="utf-8") as f:
+                    seed_docs = json.load(f)
+                corpus = [
+                    (d.get("url", f"seed_{i}"), f"{d.get('title', '')}\n\n{d.get('text', '')}")
+                    for i, d in enumerate(seed_docs)
+                ]
+                hybrid_retriever.build_local_index(corpus)
+                logger.info(f"Loaded {len(corpus)} seed schemes into hybrid local index (BM25 + FAISS)")
+
+                # Also ensure Pinecone has these core scheme vectors
+                try:
+                    stats = self.pinecone_index.describe_index_stats()
+                    total_vecs = stats.get("total_vector_count", 0) if isinstance(stats, dict) else getattr(stats, "total_vector_count", 0)
+                    if total_vecs < 10:
+                        from llama_index.core import Document
+                        for d in seed_docs:
+                            doc_text = f"{d.get('title', '')}\n\n{d.get('text', '')}"
+                            self.index.insert(Document(text=doc_text, metadata={"url": d.get("url", ""), "title": d.get("title", "")}))
+                        logger.info(f"Seeded {len(seed_docs)} schemes into Pinecone index")
+                except Exception as pe:
+                    logger.warning(f"Pinecone seed check notice: {pe}")
+            except Exception as e:
+                logger.warning(f"Could not load seed schemes into hybrid retriever: {e}")
 
     def _is_conversational(self, query: str) -> bool:
         """
@@ -694,8 +759,75 @@ class RAGService:
                 except Exception as e:
                     logger.warning(f"Groundedness scoring failed: {e}")
 
+                # ── NER: Extract scheme entities from the answer ───────────────
+                try:
+                    from app.services.ml_ner_service import ml_ner_service
+                    ner_result = ml_ner_service.extract(full_text)
+                    if ner_result.get("entities"):
+                        yield f'{json.dumps({"type": "ner", "data": ner_result})}\n'
+                        logger.info(f"[NER] Entities found: {[e['text'] for e in ner_result['entities']]}")
+                except Exception as e:
+                    logger.warning(f"NER extraction failed: {e}")
+
+                # ── User Clustering: assign query context to nearest cluster segment
+                try:
+                    from app.services.ml_cluster_service import ml_cluster_service
+                    cluster_profile = {"age": 35, "annual_income": 60000, "land_owned_acres": 2.0}
+                    cluster_result = ml_cluster_service.assign(cluster_profile)
+                    if cluster_result.get("cluster_id") is not None:
+                        yield f'{json.dumps({"type": "user_segment", "data": cluster_result})}\n'
+                        logger.info(f"[Cluster] Segment: {cluster_result.get('cluster_id')}")
+                except Exception as e:
+                    logger.warning(f"User clustering failed: {e}")
+
+                # ── Anomaly Detection: check profile anomaly score ────────────
+                try:
+                    from app.services.ml_anomaly_service import ml_anomaly_service
+                    profile_check = {"age": 35, "annual_income": 60000, "land_owned_acres": 2.0}
+                    anomaly_result = ml_anomaly_service.check(profile_check)
+                    if anomaly_result.get("is_anomaly"):
+                        yield f'{json.dumps({"type": "anomaly", "data": anomaly_result})}\n'
+                        logger.info(f"[Anomaly] Score: {anomaly_result.get('anomaly_score')}")
+                except Exception as e:
+                    logger.warning(f"Anomaly detection failed: {e}")
+
+                # ── Bandit: preview ranker action for candidates ──────────────
+                try:
+                    from app.services.ml_bandit_service import ml_bandit_service
+                    bandit_profile = {"age": 35, "annual_income": 60000, "land_owned_acres": 2.0}
+                    bandit_result = ml_bandit_service.preview(bandit_profile, ["pm-kisan", "pm-jay", "mgnrega"])
+                    if bandit_result.get("chosen_scheme_id"):
+                        yield f'{json.dumps({"type": "bandit", "data": bandit_result})}\n'
+                        logger.info(f"[Bandit] Chosen scheme: {bandit_result.get('chosen_scheme_id')}")
+                except Exception as e:
+                    logger.warning(f"Bandit preview failed: {e}")
+
+                # ── Query Forecasting: predict next 24h query volume ──────────
+                try:
+                    from app.services.ml_forecast_service import ml_forecast_service
+                    forecast_result = ml_forecast_service.forecast_next_24h()
+                    if forecast_result.get("forecast"):
+                        logger.info(f"[Forecast] Next 24h volume forecasted: {len(forecast_result['forecast'])} hours")
+                except Exception as e:
+                    logger.warning(f"Query forecasting failed: {e}")
+
+                # ── Feedback Logging: record interaction ──────────────────────
+                try:
+                    from app.services.ml_feedback_service import ml_feedback_service
+                    ml_feedback_service.log_chat_feedback(
+                        query=query,
+                        answer_snippet=full_text,
+                        helpful=True,
+                        source=source_label,
+                        language=target_language or "English",
+                    )
+                    logger.info("[Feedback] Interaction logged successfully")
+                except Exception as e:
+                    logger.warning(f"Feedback logging failed: {e}")
+
                 # 6. Generate TTS Audio (Bilingual)
                 yield from self._generate_tts_stream(full_text, steps, send_steps)
+
                 
                 # 7. Update Caches (Local + LangCache)
                 cache_update_step = {"name": "Updating Caches", "status": "in-progress", "timestamp": str(time.time())}
