@@ -9,4 +9,8 @@ venv/
 
 # Database
 *.db
-data/
+data/*.db
+data/raw/
+data/processed/
+data/logs/
+!data/seed_schemes.json

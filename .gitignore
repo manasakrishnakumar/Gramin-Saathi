@@ -8,8 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+/dist
 dist-ssr
+!frontend/dist/
 *.local
 
 # Editor directories and files
@@ -31,7 +32,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+/dist/
 downloads/
 eggs/
 .eggs/
@@ -84,12 +85,15 @@ faiss_metadata.pkl
 .DS_Store
 Thumbs.db
 
-# ML model binaries (large files — distribute separately via releases/model registry)
-*.joblib
-*.pkl
+# ML model binaries (allow app models)
 *.safetensors
 backend/app/models/multilingual_v1/model.safetensors
 backend/app/models/reranker_v1/model.safetensors
+!backend/app/models/*.joblib
+!backend/app/models/*.pkl
+!backend/data/seed_schemes.json
+!frontend/src/lib/
+!frontend/dist/
 
 # Large binary/media files
 *.pdf
