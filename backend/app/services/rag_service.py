@@ -733,20 +733,15 @@ class RAGService:
                 "If the context has relevant details, use them fully. "
                 "If the context is limited, supplement with your knowledge of Indian government schemes — but always give a confident, useful answer. "
                 "NEVER say 'I don't know' or 'not in my knowledge base'. "
-                "IMPORTANT: Detect the language of the User Question above. "
-                "If the question is in Kannada (ಕನ್ನಡ), respond ENTIRELY in Kannada. "
-                "If the question is in Hindi (हिंदी), respond ENTIRELY in Hindi. "
-                "If the question is in Tamil (தமிழ்), respond ENTIRELY in Tamil. "
-                "If the question is in Telugu (తెలుగు), respond ENTIRELY in Telugu. "
-                "If the question is in Malayalam (മലയാളം), respond ENTIRELY in Malayalam. "
-                "If the question is in Bengali (বাংলা), respond ENTIRELY in Bengali. "
-                "If the question is in Marathi (मराठी), respond ENTIRELY in Marathi. "
-                "If the question is in Gujarati (ગુજરાતી), respond ENTIRELY in Gujarati. "
-                "If the question is in Punjabi (ਪੰਜਾਬੀ), respond ENTIRELY in Punjabi. "
-                "If the question is in English, respond in English. "
-                "Always match the language of the user's question exactly."
+                "LANGUAGE RULE: By default, always respond in English. "
+                "HOWEVER, if the user's message explicitly requests a specific language "
+                "(e.g. 'give in Kannada', 'in Hindi', 'translate to Telugu', 'Kannada mein do', 'Tamil lo cheppu'), "
+                "then respond ENTIRELY in that requested language. "
+                "Examples: if user says 'give in Kannada' → respond entirely in Kannada (ಕನ್ನಡ). "
+                "If user says 'Hindi mein batao' → respond entirely in Hindi. "
+                "Otherwise default to English."
             )
-            # No extra translation append needed — language is already handled above
+            # No extra translation append needed
             # Using Gemini Stream - SWITCHED TO BLOCKING + SIMULATED STREAM due to delta instability
             logger.info(f"Starting complete for query: {query}")
             try:
