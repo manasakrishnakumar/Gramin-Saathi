@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Send, Loader2, Mic, Square } from "lucide-react";
+import { Sparkles, Send, Loader2, Mic, Square, VolumeX } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -35,6 +35,7 @@ export function AIInputWithLoading({
     // Voice recording state
     const [isRecording, setIsRecording] = useState(false);
     const [isVoiceProcessing, setIsVoiceProcessing] = useState(false);
+    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
     const streamRef = useRef<MediaStream | null>(null);
@@ -135,7 +136,7 @@ export function AIInputWithLoading({
                         );
                     }
 
-                    // Helper function to play audio
+                    // Helper function to play audio with stop support
                     const playAudio = (audioBase64: string): Promise<void> => {
                         return new Promise((resolve, reject) => {
                             const audioFormats = ['audio/mpeg', 'audio/wav', 'audio/mp3'];
@@ -150,21 +151,22 @@ export function AIInputWithLoading({
                                 try {
                                     const audio = new Audio(`data:${format};base64,${audioBase64}`);
                                     audioRef.current = audio;
+                                    setIsPlayingAudio(true);
 
                                     audio.onended = () => {
-                                        console.log(`Audio playback finished (${format})`);
+                                        setIsPlayingAudio(false);
+                                        audioRef.current = null;
                                         resolve();
                                     };
 
                                     audio.onerror = () => {
-                                        console.warn(`Audio format ${format} failed, trying next...`);
+                                        setIsPlayingAudio(false);
                                         tryFormat(index + 1);
                                     };
 
                                     await audio.play();
-                                    console.log(`Audio playing with format: ${format}`);
                                 } catch (e) {
-                                    console.warn(`Failed to play audio with format ${format}:`, e);
+                                    setIsPlayingAudio(false);
                                     tryFormat(index + 1);
                                 }
                             };
@@ -236,6 +238,16 @@ export function AIInputWithLoading({
         }
     };
 
+    // Stop audio playback mid-sentence
+    const stopAudio = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current = null;
+        }
+        setIsPlayingAudio(false);
+    };
+
     const handleVoiceClick = () => {
         if (isRecording) {
             stopRecording();
@@ -257,12 +269,42 @@ export function AIInputWithLoading({
 
     return (
         <div className={cn("relative w-full max-w-3xl mx-auto", className)}>
+
+            {/* ── Stop Audio Banner ── shows whenever voice is playing */}
+            <AnimatePresence>
+                {isPlayingAudio && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-2"
+                    >
+                        <div className="flex items-center gap-2">
+                            <motion.div
+                                animate={{ scale: [1, 1.3, 1] }}
+                                transition={{ duration: 0.8, repeat: Infinity }}
+                                className="w-2.5 h-2.5 rounded-full bg-red-500"
+                            />
+                            <span className="text-sm font-medium text-red-400">Voice explanation is playing…</span>
+                        </div>
+                        <button
+                            onClick={stopAudio}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500 hover:bg-red-600 active:scale-95 text-white text-xs font-semibold transition-all"
+                        >
+                            <VolumeX className="w-3.5 h-3.5" />
+                            Stop
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className={cn(
                 "relative flex items-end gap-2 p-2 rounded-3xl border shadow-sm transition-all duration-300",
                 "bg-background/80 backdrop-blur top-0",
                 isRecording ? "border-red-500/50 shadow-red-500/20" :
                     isVoiceProcessing ? "border-yellow-500/50 shadow-yellow-500/20" :
-                        isLoading ? "border-primary/50 shadow-primary/20" : "border-border hover:border-primary/30",
+                        isPlayingAudio ? "border-red-500/40 shadow-red-500/10" :
+                            isLoading ? "border-primary/50 shadow-primary/20" : "border-border hover:border-primary/30",
                 "focus-within:border-primary focus-within:shadow-md focus-within:ring-1 focus-within:ring-primary/20",
                 disabled && "opacity-50 cursor-not-allowed"
             )}>

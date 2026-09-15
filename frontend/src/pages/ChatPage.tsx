@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import ReactMarkdown from 'react-markdown';
-import { Send, Plus, MessageSquare, Loader2, Bot, User, ChevronRight, CheckCircle2, ChevronDown, Trash2, Sparkles, AlertTriangle } from "lucide-react";
+import { Send, Plus, MessageSquare, Loader2, Bot, User, ChevronRight, CheckCircle2, ChevronDown, Trash2, Sparkles, AlertTriangle, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@clerk/clerk-react";
@@ -203,6 +203,8 @@ export default function ChatPage() {
     const [currentSteps, setCurrentSteps] = useState<any[]>([]);
     const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    // Track currently playing streaming audio so it can be stopped
+    const streamAudioRef = useRef<HTMLAudioElement | null>(null);
 
     // --- Persistence ---
 
@@ -348,31 +350,27 @@ export default function ChatPage() {
 
             setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: "", steps: [] }]);
 
-            // Audio playback helper
+            // Audio playback helper — tracks audio so it can be stopped
             const playAudio = (audioBase64: string): Promise<void> => {
                 return new Promise((resolve) => {
                     const audioFormats = ['audio/mpeg', 'audio/wav', 'audio/mp3'];
-                    let tried = 0;
 
                     const tryFormat = (index: number) => {
                         if (index >= audioFormats.length) {
-                            console.error("Could not play audio with any format");
                             resolve();
                             return;
                         }
 
                         const format = audioFormats[index];
                         const audio = new Audio(`data:${format};base64,${audioBase64}`);
+                        streamAudioRef.current = audio;
 
                         audio.onended = () => {
-                            console.log(`Audio playback finished (${format})`);
+                            streamAudioRef.current = null;
                             resolve();
                         };
 
-                        audio.onerror = () => {
-                            console.warn(`Audio format ${format} failed, trying next...`);
-                            tryFormat(index + 1);
-                        };
+                        audio.onerror = () => tryFormat(index + 1);
 
                         audio.play().catch(() => tryFormat(index + 1));
                     };
@@ -630,6 +628,14 @@ export default function ChatPage() {
                                                     </div>
 
                                                     <div className="flex items-center gap-2 flex-wrap mt-1">
+                                                        {/* RAG Source Badge */}
+                                                        <div
+                                                            className="flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-full border w-fit font-medium text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
+                                                            title="Response generated from RAG (Retrieval-Augmented Generation) using the scheme knowledge base"
+                                                        >
+                                                            <Database className="h-2.5 w-2.5" />
+                                                            RAG · Scheme Knowledge Base
+                                                        </div>
                                                         {msg.intent && <IntentBadge intent={msg.intent} />}
                                                         {msg.groundedness && <GroundednessNote groundedness={msg.groundedness} />}
                                                     </div>
