@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, BarChart3 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export function Navbar() {
@@ -19,6 +19,10 @@ export function Navbar() {
                     <Link to="/chat" className="transition-colors hover:text-primary">Chat</Link>
                     <Link to="/recommend" className="transition-colors hover:text-primary">Find Schemes</Link>
                     <Link to="/dashboard" className="transition-colors hover:text-primary">Dashboard</Link>
+                    <Link to="/stats" className="transition-colors hover:text-primary flex items-center gap-1 text-green-500 font-semibold">
+                        <BarChart3 className="h-4 w-4" />
+                        Statistics
+                    </Link>
                 </div>
 
                 <div className="flex items-center gap-4">

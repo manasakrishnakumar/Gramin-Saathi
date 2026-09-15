@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import ChatPage from "./pages/ChatPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import RecommendPage from "./pages/RecommendPage";
+import { StatsDashboard } from "./pages/StatsDashboard";
 import NotFound from "./pages/NotFound";
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -34,6 +35,7 @@ const App = () => (
                 <Route path="/chat" element={<ChatPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/recommend" element={<RecommendPage />} />
+                <Route path="/stats" element={<StatsDashboard />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
