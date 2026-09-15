@@ -351,6 +351,9 @@ export default function ChatPage() {
 
             setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: "", steps: [] }]);
 
+            // Audio queue — collected during stream, played AFTER stream ends (fixes stuck loading)
+            const audioQueue: string[] = [];
+
             // Audio playback helper — tracks audio so it can be stopped
             const playAudio = (audioBase64: string): Promise<void> => {
                 return new Promise((resolve) => {
@@ -395,31 +398,15 @@ export default function ChatPage() {
                         assistantSteps = data.data;
                         setCurrentSteps(assistantSteps);
                     } else if (data.type === 'intent') {
-                        // Emitted by rag_service.py — the trained intent classifier's
-                        // read on this turn (ml/train_intent_classifier.py, 95.3% held-out
-                        // accuracy), falls back to rule-based only if that model didn't load.
                         assistantIntent = data.data;
                     } else if (data.type === 'groundedness') {
-                        // Trained classifier's read on whether this answer is
-                        // supported by its retrieved context. Soft signal —
-                        // see ml_groundedness_service.py's documented
-                        // false-positive limitation on heavy paraphrasing —
-                        // so the UI only nudges on a low-confidence score,
-                        // never a hard "this is wrong" claim.
                         assistantGroundedness = data.data;
                     } else if (data.type === 'error') {
                         console.error("Stream error:", data.content);
                     } else if (data.type === 'audio') {
-                        // Play audio response (English first, then native)
-                        console.log("Received audio data from stream");
-                        if (data.audio) {
-                            console.log("Playing English audio...");
-                            await playAudio(data.audio);
-                        }
-                        if (data.audio_native) {
-                            console.log("Playing native language audio...");
-                            await playAudio(data.audio_native);
-                        }
+                        // Queue audio for playback AFTER stream completes (prevents loading state from getting stuck)
+                        if (data.audio) audioQueue.push(data.audio);
+                        if (data.audio_native) audioQueue.push(data.audio_native);
                     }
 
                     // Update UI
@@ -455,16 +442,24 @@ export default function ChatPage() {
                 }
             }
 
+            // ── Audio playback AFTER stream ends so isLoading resets immediately ──
+            // (Awaiting audio inside processLine was causing the "stuck" loading state)
+            const playQueuedAudio = async () => {
+                for (const audioB64 of audioQueue) {
+                    await playAudio(audioB64);
+                }
+            };
+            // Fire-and-forget: don't block loading reset
+            playQueuedAudio().catch(console.error);
+
             // Sync with session storage
             if (activeId) {
                 setSessions(prev => prev.map(s => {
                     if (s.id === activeId) {
-                        // Rename if it's the first message (or title is default)
                         let newTitle = s.title;
                         if (s.messages.length === 0 || s.title === "New Chat") {
                             newTitle = userMessage.content.slice(0, 30) + (userMessage.content.length > 30 ? "..." : "");
                         }
-
                         return {
                             ...s,
                             title: newTitle,
@@ -478,9 +473,9 @@ export default function ChatPage() {
 
         } catch (error) {
             console.error("Failed to send message:", error);
-            // Optionally add error message to chat
         } finally {
             setIsLoading(false);
+            setCurrentSteps([]);
         }
     };
 
