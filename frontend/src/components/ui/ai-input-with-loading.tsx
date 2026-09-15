@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Send, Loader2, Mic, Square, VolumeX } from "lucide-react";
+import { Sparkles, Send, Loader2, Mic, Square, VolumeX, Volume2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -284,33 +284,6 @@ export function AIInputWithLoading({
     return (
         <div className={cn("relative w-full max-w-3xl mx-auto", className)}>
 
-            {/* ── Stop Audio Banner ── shows whenever any voice is playing */}
-            <AnimatePresence>
-                {showStopBanner && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-2"
-                    >
-                        <div className="flex items-center gap-2">
-                            <motion.div
-                                animate={{ scale: [1, 1.3, 1] }}
-                                transition={{ duration: 0.8, repeat: Infinity }}
-                                className="w-2.5 h-2.5 rounded-full bg-red-500"
-                            />
-                            <span className="text-sm font-medium text-red-400">Voice explanation is playing…</span>
-                        </div>
-                        <button
-                            onClick={handleStopAll}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500 hover:bg-red-600 active:scale-95 text-white text-xs font-semibold transition-all"
-                        >
-                            <VolumeX className="w-3.5 h-3.5" />
-                            Stop
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
 
             <div className={cn(
                 "relative flex items-end gap-2 p-2 rounded-3xl border shadow-sm transition-all duration-300",
@@ -362,7 +335,7 @@ export function AIInputWithLoading({
                     rows={1}
                 />
 
-                {/* Voice Button */}
+                {/* Mic Button — voice input only */}
                 <div className="p-1.5 pb-2">
                     <motion.button
                         onClick={handleVoiceClick}
@@ -384,6 +357,29 @@ export function AIInputWithLoading({
                             <Square className="w-3 h-3 fill-current" />
                         ) : (
                             <Mic className="w-4 h-4" />
+                        )}
+                    </motion.button>
+                </div>
+
+                {/* Audio Control Button — separate from mic, controls TTS playback */}
+                <div className="p-1.5 pb-2">
+                    <motion.button
+                        onClick={handleStopAll}
+                        className={cn(
+                            "flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200",
+                            showStopBanner
+                                ? "bg-red-500 text-white hover:bg-red-600"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                        )}
+                        whileTap={{ scale: 0.9 }}
+                        animate={showStopBanner ? { scale: [1, 1.1, 1] } : {}}
+                        transition={{ duration: 0.8, repeat: showStopBanner ? Infinity : 0 }}
+                        title={showStopBanner ? "Stop audio" : "Audio playback"}
+                    >
+                        {showStopBanner ? (
+                            <VolumeX className="w-4 h-4" />
+                        ) : (
+                            <Volume2 className="w-4 h-4" />
                         )}
                     </motion.button>
                 </div>
