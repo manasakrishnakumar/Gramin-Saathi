@@ -15,6 +15,9 @@ interface AIInputWithLoadingProps {
     placeholder?: string;
     className?: string;
     disabled?: boolean;
+    // Allow ChatPage to signal that streaming audio is playing
+    externalIsPlayingAudio?: boolean;
+    onExternalStop?: () => void;
 }
 
 export function AIInputWithLoading({
@@ -26,7 +29,9 @@ export function AIInputWithLoading({
     loadingDuration,
     placeholder = "Ask something...",
     className,
-    disabled
+    disabled,
+    externalIsPlayingAudio = false,
+    onExternalStop,
 }: AIInputWithLoadingProps) {
     const [internalValue, setInternalValue] = useState("");
     const [internalLoading, setInternalLoading] = useState(false);
@@ -266,13 +271,22 @@ export function AIInputWithLoading({
     }, []);
 
     const isVoiceBusy = isRecording || isVoiceProcessing;
+    // Show Stop banner if internal audio OR external ChatPage streaming audio is playing
+    const showStopBanner = isPlayingAudio || externalIsPlayingAudio;
+
+    const handleStopAll = () => {
+        // Stop internal audio (voice replies)
+        stopAudio();
+        // Stop external audio (text chat TTS streaming)
+        onExternalStop?.();
+    };
 
     return (
         <div className={cn("relative w-full max-w-3xl mx-auto", className)}>
 
-            {/* ── Stop Audio Banner ── shows whenever voice is playing */}
+            {/* ── Stop Audio Banner ── shows whenever any voice is playing */}
             <AnimatePresence>
-                {isPlayingAudio && (
+                {showStopBanner && (
                     <motion.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -288,7 +302,7 @@ export function AIInputWithLoading({
                             <span className="text-sm font-medium text-red-400">Voice explanation is playing…</span>
                         </div>
                         <button
-                            onClick={stopAudio}
+                            onClick={handleStopAll}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500 hover:bg-red-600 active:scale-95 text-white text-xs font-semibold transition-all"
                         >
                             <VolumeX className="w-3.5 h-3.5" />
@@ -303,7 +317,7 @@ export function AIInputWithLoading({
                 "bg-background/80 backdrop-blur top-0",
                 isRecording ? "border-red-500/50 shadow-red-500/20" :
                     isVoiceProcessing ? "border-yellow-500/50 shadow-yellow-500/20" :
-                        isPlayingAudio ? "border-red-500/40 shadow-red-500/10" :
+                        showStopBanner ? "border-red-500/40 shadow-red-500/10" :
                             isLoading ? "border-primary/50 shadow-primary/20" : "border-border hover:border-primary/30",
                 "focus-within:border-primary focus-within:shadow-md focus-within:ring-1 focus-within:ring-primary/20",
                 disabled && "opacity-50 cursor-not-allowed"

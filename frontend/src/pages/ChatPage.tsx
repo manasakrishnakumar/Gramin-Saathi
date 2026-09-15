@@ -205,6 +205,7 @@ export default function ChatPage() {
     const scrollRef = useRef<HTMLDivElement>(null);
     // Track currently playing streaming audio so it can be stopped
     const streamAudioRef = useRef<HTMLAudioElement | null>(null);
+    const [isStreamingAudio, setIsStreamingAudio] = useState(false);
 
     // --- Persistence ---
 
@@ -357,6 +358,7 @@ export default function ChatPage() {
 
                     const tryFormat = (index: number) => {
                         if (index >= audioFormats.length) {
+                            setIsStreamingAudio(false);
                             resolve();
                             return;
                         }
@@ -364,9 +366,11 @@ export default function ChatPage() {
                         const format = audioFormats[index];
                         const audio = new Audio(`data:${format};base64,${audioBase64}`);
                         streamAudioRef.current = audio;
+                        setIsStreamingAudio(true);
 
                         audio.onended = () => {
                             streamAudioRef.current = null;
+                            setIsStreamingAudio(false);
                             resolve();
                         };
 
@@ -637,7 +641,7 @@ export default function ChatPage() {
                                                             RAG · Scheme Knowledge Base
                                                         </div>
                                                         {msg.intent && <IntentBadge intent={msg.intent} />}
-                                                        {msg.groundedness && <GroundednessNote groundedness={msg.groundedness} />}
+                                                        {msg.groundedness && false /* yellow badge removed */}
                                                     </div>
                                                 </>
                                             )}
@@ -665,6 +669,15 @@ export default function ChatPage() {
                                     loading={isLoading}
                                     placeholder="Ask about a government scheme..."
                                     disabled={isLoading}
+                                    externalIsPlayingAudio={isStreamingAudio}
+                                    onExternalStop={() => {
+                                        if (streamAudioRef.current) {
+                                            streamAudioRef.current.pause();
+                                            streamAudioRef.current.currentTime = 0;
+                                            streamAudioRef.current = null;
+                                        }
+                                        setIsStreamingAudio(false);
+                                    }}
                                 />
 
                                 <div className="text-center">
