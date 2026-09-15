@@ -1,117 +1,322 @@
 [
   {
     "url": "https://pmkisan.gov.in",
-    "title": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
-    "text": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi) is a Central Sector scheme launched on 1st February 2019. Under this scheme, an income support of Rs. 6000/- per year is provided to all landholding farmer families across India. The amount is paid in three equal installments of Rs. 2000/- each every four months directly into the bank accounts of the beneficiaries. Eligibility: All landholding farmers' families with cultivable land are eligible. Exclusions include institutional landholders, farmer families holding constitutional posts, serving or retired officers of state/central government services, professionals such as doctors, engineers, lawyers, chartered accountants, and persons who paid income tax in last assessment year. Benefits: Rs. 6000 per year directly transferred to bank account. How to Apply: Farmers can register at the PM-KISAN portal pmkisan.gov.in or through the PM-KISAN Mobile App. Documents required: Aadhaar card, bank account details, land records."
+    "title": "PM-KISAN Pradhan Mantri Kisan Samman Nidhi",
+    "text": "PM-KISAN is a Central Sector scheme launched on 1st February 2019 providing income support of Rs 6000 per year to all landholding farmer families in three equal installments of Rs 2000 each directly to bank accounts. Eligibility: All landholding farmers families with cultivable land. Exclusions include institutional landholders constitutional post holders government servants and income tax payers. How to Apply: Register at pmkisan.gov.in or PM-KISAN Mobile App. Documents required: Aadhaar card, bank account details, land records."
   },
   {
     "url": "https://pmjay.gov.in",
-    "title": "Ayushman Bharat PM-JAY (Pradhan Mantri Jan Arogya Yojana)",
-    "text": "Ayushman Bharat PM-JAY is the world's largest health assurance scheme, launched on 23rd September 2018. It provides a health cover of Rs. 5 lakhs per family per year for secondary and tertiary care hospitalisation to over 10.74 crore poor and vulnerable families. Eligibility: Families identified based on Socio-Economic Caste Census (SECC) 2011 data. Includes rural deprivation criteria and occupational category of urban workers. Benefits: Rs. 5 lakh per family per year for hospitalisation. Cashless and paperless access to health care services. Covers pre and post hospitalisation expenses. How to Apply: Visit the nearest Ayushman Bharat PM-JAY empanelled hospital or Common Service Centre. Check eligibility on pmjay.gov.in or call 14555. Documents: Aadhaar card, ration card."
-  },
-  {
-    "url": "https://scholarships.gov.in",
-    "title": "National Scholarship Portal - Central Government Scholarships",
-    "text": "The National Scholarship Portal (NSP) is a one-stop platform for students seeking scholarships from various central government ministries. Scholarships available include: Pre-Matric Scholarship for SC/ST/OBC/Minority students, Post-Matric Scholarship for SC/ST/OBC/Minority students, Merit-cum-Means Scholarship, Central Sector Scheme of Scholarships for College and University Students. Eligibility varies by scheme but generally targets students from economically weaker sections. Income criteria for most scholarships is parental income below Rs. 2.5 lakh per annum for pre-matric and Rs. 6 lakh for post-matric. Benefits: Financial assistance ranging from Rs. 1000 to Rs. 25000 per year depending on the scheme. How to Apply: Register on scholarships.gov.in, fill the application form, upload required documents. Documents: Aadhaar card, income certificate, bank details, bonafide certificate from institution."
-  },
-  {
-    "url": "https://pmsby.gov.in",
-    "title": "PMSBY - Pradhan Mantri Suraksha Bima Yojana",
-    "text": "Pradhan Mantri Suraksha Bima Yojana (PMSBY) is an accidental insurance scheme launched on 9 May 2015. It offers accidental death and disability coverage for Rs. 2 lakhs at an annual premium of just Rs. 20. Eligibility: Any individual aged 18-70 years with a savings bank account who gives his consent to join and pay the premium. Benefits: Rs. 2 lakh for accidental death or total permanent disability, Rs. 1 lakh for partial permanent disability. How to Apply: Through participating banks or insurance companies. Can be enrolled via bank branch, bank's website, mobile banking, Common Service Centre, or Insurance agents. Auto-debit from savings bank account. Documents: Bank account, Aadhaar card."
-  },
-  {
-    "url": "https://pmjjby.gov.in",
-    "title": "PMJJBY - Pradhan Mantri Jeevan Jyoti Bima Yojana",
-    "text": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY) is a life insurance scheme launched on 9 May 2015. It offers life insurance coverage of Rs. 2 lakhs for death due to any cause at an annual premium of Rs. 436 per year. Eligibility: People in the age group of 18 to 50 years having a bank account. Benefits: Rs. 2 lakh life insurance coverage for death due to any cause. How to Apply: Through participating life insurance companies or banks. The scheme is offered by Life Insurance Corporation of India and various other insurance companies. Application through bank branch or online. Documents: Bank account, Aadhaar card."
-  },
-  {
-    "url": "https://atal-pension-yojana.gov.in",
-    "title": "Atal Pension Yojana (APY)",
-    "text": "Atal Pension Yojana (APY) is a pension scheme focused on the unorganized sector workers. It was launched on 9 May 2015. Under the APY, guaranteed minimum pension of Rs. 1000/- to Rs. 5000/- per month will be given at the age of 60 years depending on the contributions by the subscribers. Eligibility: Any citizen of India between 18-40 years of age with a savings bank account. Benefits: Guaranteed pension of Rs. 1000 to Rs. 5000 per month depending on contribution level. Government also co-contributes 50% of the total contribution or Rs. 1000 per annum (whichever is lower) to eligible subscribers who joined between June 2015 and December 2015. How to Apply: Through bank branches, Common Service Centres, or Aadhaar Enabled Payment System. Documents: Bank account, Aadhaar card, mobile number."
-  },
-  {
-    "url": "https://mudra.org.in",
-    "title": "PM Mudra Yojana (PMMY) - Micro Business Loans",
-    "text": "Pradhan Mantri MUDRA Yojana (PMMY) is a scheme launched on 8 April 2015 for providing loans up to Rs 10 lakh to the non-corporate, non-farm small/micro enterprises. These loans are classified as MUDRA loans under PMMY. Types: Shishu (loans up to Rs 50,000), Kishor (loans from Rs 50,001 to Rs 5 lakh), Tarun (loans from Rs 5 lakh to Rs 10 lakh). Eligibility: Any Indian citizen who has a business plan for income generating activity in manufacturing, processing, trading or service sector. Benefits: Low-interest collateral-free loans for small businesses. How to Apply: Through public sector banks, private sector banks, Regional Rural Banks, Co-operative Banks, Micro Finance Institutions, and NBFCs. Online at udyamimitra.in. Documents: Identity proof, address proof, business plan."
-  },
-  {
-    "url": "https://pmuy.gov.in",
-    "title": "Pradhan Mantri Ujjwala Yojana (PMUY) - Free LPG Connections",
-    "text": "Pradhan Mantri Ujjwala Yojana (PMUY) was launched on 1st May 2016 to safeguard the health of women and children by providing LPG connections to BPL households. The scheme provides free LPG connections to women belonging to poor households. Eligibility: Women from BPL households who are above 18 years of age and who do not have LPG connection in the household. Priority given to Pradhan Mantri Awas Yojana beneficiaries, SC/ST households, Most Backward Classes, Antyodaya Anna Yojana households, tea garden and forest dwellers, and people residing in islands. Benefits: Free LPG cylinder connection (one connection per household). How to Apply: Through nearest oil company's distribution office or Common Service Centre. Documents: BPL card, Aadhaar card, bank account details."
-  },
-  {
-    "url": "https://india.gov.in/spotlight/pradhan-mantri-awas-yojana",
-    "title": "Pradhan Mantri Awas Yojana (PMAY) - Housing for All",
-    "text": "Pradhan Mantri Awas Yojana (PMAY) was launched on 25th June 2015 with the aim of providing housing to all by 2022. The scheme provides financial assistance to eligible beneficiaries for construction of permanent pucca house. PMAY-Gramin: For rural areas. EWS/LIG category - up to Rs 1.5 lakh assistance. PMAY-Urban: For urban areas. Credit Linked Subsidy Scheme (CLSS) provides interest subsidy on home loans. Eligibility: Beneficiary family should not own a pucca house anywhere in India. For PMAY-Urban, must belong to EWS (annual income up to Rs 3 lakh), LIG (Rs 3-6 lakh), MIG-I (Rs 6-12 lakh) or MIG-II (Rs 12-18 lakh) categories. Benefits: Financial assistance up to Rs 1.5 lakh for rural areas, interest subsidy of 3-6.5% on home loans for urban areas. How to Apply: For rural - through Gram Panchayat. For urban - through local urban local body or bank. Documents: Aadhaar card, income certificate, land ownership documents."
-  },
-  {
-    "url": "https://swachh.gov.in",
-    "title": "Swachh Bharat Mission - Clean India Mission",
-    "text": "Swachh Bharat Mission was launched on 2nd October 2014 to achieve open defecation free India and improve solid waste management. Individual Household Latrine (IHHL) construction assistance of Rs 12,000 is provided to BPL households and above poverty line households with SC/ST, small and marginal farmers, landless labourers with house sites, households with disabled persons and women headed households. Eligibility: Households without a toilet and belonging to the eligible categories. Benefits: Financial incentive of Rs 12,000 for construction of toilet. How to Apply: Through Gram Panchayat or Block office. Documents: Aadhaar card, bank account, land ownership or certificate of residence."
-  },
-  {
-    "url": "https://fasal.gov.in",
-    "title": "PM Fasal Bima Yojana (PMFBY) - Crop Insurance",
-    "text": "Pradhan Mantri Fasal Bima Yojana (PMFBY) was launched on 18 February 2016. It is a comprehensive crop insurance scheme to provide financial support to farmers suffering crop loss/damage due to unforeseen events. Premium rates: 2% for Kharif crops, 1.5% for Rabi crops, 5% for annual commercial/horticultural crops. The balance premium is paid by the government. Eligibility: All farmers including sharecroppers and tenant farmers growing notified crops in notified areas. Compulsory for loanee farmers, voluntary for non-loanee farmers. Benefits: Coverage of crop loss due to natural calamities, pests and diseases, post-harvest losses. How to Apply: Through banks, insurance companies, Common Service Centres, or the PMFBY portal. Documents: Land records, Aadhaar card, bank account, sowing certificate."
-  },
-  {
-    "url": "https://labour.gov.in/e-shram",
-    "title": "e-Shram Portal - Unorganised Worker Registration",
-    "text": "e-Shram portal was launched on 26th August 2021 for creating a National Database of Unorganised Workers (NDUW). Registered workers get an e-Shram card and are entitled to various social security benefits. All unorganised workers can register on e-Shram portal. Eligibility: Unorganised workers aged 16-59 years who are not covered under EPF, ESIC, or NPS (Government). This includes construction workers, migrant workers, gig workers, platform workers, street vendors, domestic workers, agricultural workers etc. Benefits: e-Shram Card (UAN), accidental insurance cover of Rs. 2 lakh under PMSBY, priority access to various government schemes. How to Apply: Self-registration at eshram.gov.in or through Common Service Centres (CSC). Documents: Aadhaar card, mobile number linked to Aadhaar, bank account number."
+    "title": "Ayushman Bharat PM-JAY Pradhan Mantri Jan Arogya Yojana",
+    "text": "Ayushman Bharat PM-JAY is the world largest health assurance scheme launched 23rd September 2018. It provides health cover of Rs 5 lakhs per family per year for secondary and tertiary care hospitalisation to over 10.74 crore poor and vulnerable families. Eligibility: Families identified based on SECC 2011 data including rural deprivation criteria and occupational category of urban workers. Benefits: Rs 5 lakh per family per year for hospitalisation cashless and paperless. Covers pre and post hospitalisation expenses. How to Apply: Visit nearest PM-JAY empanelled hospital or Common Service Centre. Check eligibility at pmjay.gov.in or call 14555. Documents: Aadhaar card, ration card."
   },
   {
     "url": "https://nrega.nic.in",
-    "title": "MGNREGS - Mahatma Gandhi National Rural Employment Guarantee Scheme",
-    "text": "The Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA) guarantees 100 days of wage employment in a financial year to every rural household whose adult members volunteer to do unskilled manual work. This is a demand-driven scheme. Eligibility: Any adult member of a rural household willing to do unskilled manual work. Benefits: Guaranteed 100 days of employment per year. Wages are paid as per the wage rate notified by the state government. Compensation for work not provided within 15 days. Work within 5 km of the applicant's residence. One-third of the workers in each work-site should be women. How to Apply: Apply at the local Gram Panchayat with a household job card application. Documents: Aadhaar card, photograph, bank/post office account."
+    "title": "MGNREGS Mahatma Gandhi National Rural Employment Guarantee Scheme",
+    "text": "MGNREGA guarantees 100 days of wage employment per financial year to every rural household whose adult members volunteer to do unskilled manual work. Eligibility: Any adult member of a rural household willing to do unskilled manual work. Benefits: 100 days guaranteed employment per year, wages as per state notified rates, work within 5 km of residence, one-third of workers should be women. How to Apply: Apply at local Gram Panchayat with household job card application. Documents: Aadhaar card, photograph, bank account."
   },
   {
-    "url": "https://pmkvy.gov.in",
-    "title": "PMKVY - Pradhan Mantri Kaushal Vikas Yojana (Skill Development)",
-    "text": "Pradhan Mantri Kaushal Vikas Yojana (PMKVY) is the flagship scheme of the Ministry of Skill Development & Entrepreneurship (MSDE). The objective of the scheme is to enable Indian youth to take up industry-relevant skill training that will help them secure a better livelihood. Training is provided through Short Term Training (STT) and Recognition of Prior Learning (RPL). Eligibility: Any Indian national who is an unemployed youth or school/college dropout. Benefits: Free skill training in various trade sectors. Financial rewards for successful completion of assessment. Preference in national/state government job listings. How to Apply: Through PMKVY training centres (find at pmkvy.gov.in) or through Common Service Centres. Documents: Aadhaar card, bank account, educational certificates."
+    "url": "https://pmsby.gov.in",
+    "title": "PMSBY Pradhan Mantri Suraksha Bima Yojana Accidental Insurance",
+    "text": "Pradhan Mantri Suraksha Bima Yojana PMSBY is an accidental insurance scheme launched 9 May 2015. It offers accidental death and disability coverage of Rs 2 lakhs at an annual premium of just Rs 20. Eligibility: Any individual aged 18-70 years with a savings bank account. Benefits: Rs 2 lakh for accidental death or total permanent disability, Rs 1 lakh for partial permanent disability. How to Apply: Through participating banks or insurance companies, auto-debit from savings bank account. Documents: Bank account, Aadhaar card."
+  },
+  {
+    "url": "https://pmjjby.gov.in",
+    "title": "PMJJBY Pradhan Mantri Jeevan Jyoti Bima Yojana Life Insurance",
+    "text": "Pradhan Mantri Jeevan Jyoti Bima Yojana PMJJBY is a life insurance scheme launched 9 May 2015. It offers life insurance coverage of Rs 2 lakhs for death due to any cause at an annual premium of Rs 436 per year. Eligibility: People aged 18 to 50 years having a bank account. Benefits: Rs 2 lakh life insurance coverage for death due to any cause. How to Apply: Through participating insurance companies or banks via branch or online. Documents: Bank account, Aadhaar card."
+  },
+  {
+    "url": "https://atal-pension-yojana.gov.in",
+    "title": "Atal Pension Yojana APY Guaranteed Pension for Unorganised Workers",
+    "text": "Atal Pension Yojana APY launched 9 May 2015 provides guaranteed minimum pension of Rs 1000 to Rs 5000 per month at age 60 for unorganized sector workers. Eligibility: Indian citizen aged 18-40 with a savings bank account. Benefits: Guaranteed pension Rs 1000 to Rs 5000 per month depending on contribution, government co-contribution 50 percent of total for eligible subscribers. How to Apply: Through bank branches Common Service Centres or Aadhaar Enabled Payment System. Documents: Bank account, Aadhaar card, mobile number."
+  },
+  {
+    "url": "https://mudra.org.in",
+    "title": "PM Mudra Yojana PMMY Micro Business Loans Shishu Kishor Tarun",
+    "text": "Pradhan Mantri MUDRA Yojana PMMY launched 8 April 2015 provides loans up to Rs 10 lakh to non-corporate non-farm small micro enterprises. Types: Shishu loans up to Rs 50000, Kishor loans Rs 50001 to Rs 5 lakh, Tarun loans Rs 5 lakh to Rs 10 lakh. Eligibility: Any Indian citizen with a business plan for income generating activity in manufacturing processing trading or service sector. Benefits: Collateral-free low-interest loans for small businesses. How to Apply: Through banks RRBs MFIs or udyamimitra.in. Documents: Identity proof, address proof, business plan."
+  },
+  {
+    "url": "https://pmuy.gov.in",
+    "title": "Pradhan Mantri Ujjwala Yojana PMUY Free LPG Connection for BPL Women",
+    "text": "PMUY launched 1st May 2016 provides free LPG connections to women from BPL households to safeguard health of women and children. Eligibility: Women from BPL households above 18 years without LPG connection. Priority to PMAY beneficiaries SC/ST Most Backward Classes AAY households. Benefits: Free LPG cylinder connection one per household. How to Apply: Through nearest oil company distribution office or Common Service Centre. Documents: BPL card, Aadhaar card, bank account details."
+  },
+  {
+    "url": "https://india.gov.in/pmay",
+    "title": "Pradhan Mantri Awas Yojana PMAY Housing for All",
+    "text": "Pradhan Mantri Awas Yojana PMAY launched 25th June 2015 aims to provide housing to all. PMAY-Gramin for rural areas provides up to Rs 1.5 lakh assistance. PMAY-Urban provides Credit Linked Subsidy Scheme with interest subsidy of 3-6.5 percent on home loans. Eligibility: Beneficiary family should not own a pucca house anywhere in India. EWS annual income up to Rs 3 lakh, LIG Rs 3-6 lakh, MIG-I Rs 6-12 lakh, MIG-II Rs 12-18 lakh. How to Apply: Rural through Gram Panchayat, Urban through urban local body or bank. Documents: Aadhaar card, income certificate, land ownership documents."
+  },
+  {
+    "url": "https://swachh.gov.in",
+    "title": "Swachh Bharat Mission Toilet Construction Rs 12000 for BPL Households",
+    "text": "Swachh Bharat Mission launched 2nd October 2014 provides Individual Household Latrine construction assistance of Rs 12000 to BPL households SC/ST small marginal farmers landless labourers households with disabled persons and women headed households. Eligibility: Households without toilet in eligible categories. Benefits: Rs 12000 financial incentive for toilet construction. How to Apply: Through Gram Panchayat or Block office. Documents: Aadhaar card, bank account, land ownership or residence certificate."
+  },
+  {
+    "url": "https://fasal.gov.in",
+    "title": "PM Fasal Bima Yojana PMFBY Crop Insurance for Farmers",
+    "text": "Pradhan Mantri Fasal Bima Yojana PMFBY launched 18 February 2016 provides financial support to farmers for crop loss due to natural calamities pests and diseases. Premium: 2 percent Kharif, 1.5 percent Rabi, 5 percent commercial crops, balance paid by government. Eligibility: All farmers including sharecroppers and tenant farmers growing notified crops. Benefits: Coverage for crop loss due to natural calamities pests diseases post-harvest losses. How to Apply: Through banks insurance companies Common Service Centres or PMFBY portal. Documents: Land records, Aadhaar card, bank account, sowing certificate."
+  },
+  {
+    "url": "https://jaljeevanmission.gov.in",
+    "title": "Jal Jeevan Mission Har Ghar Jal Piped Drinking Water to Every Rural Home",
+    "text": "Jal Jeevan Mission announced 15th August 2019 provides safe drinking water via individual household tap connections to all rural households. Eligibility: All rural households in India priority to SC/ST habitations drought-prone areas aspirational districts and quality-affected areas. Benefits: Functional Household Tap Connection providing 55 litres per capita per day. How to Apply: Through Village Water and Sanitation Committee VWSC or Gram Panchayat. Documents: Aadhaar card, ration card, residence proof."
+  },
+  {
+    "url": "https://svanidhi.mohua.gov.in",
+    "title": "PM SVANidhi Street Vendor AtmaNirbhar Nidhi Collateral Free Working Capital Loans",
+    "text": "PM SVANidhi launched 1st June 2020 provides collateral-free working capital loans to street vendors. Eligibility: Urban street vendors who were vending before 24th March 2020 with vending certificate or letter from urban local body. Benefits: First loan Rs 10000, second loan Rs 20000, third loan Rs 50000. Seven percent interest subsidy on timely repayment. Digital transaction rewards up to Rs 1200 per year. How to Apply: Through banks MFIs NBFCs or svanidhi.mohua.gov.in. Documents: Aadhaar card, vendor certificate, bank account."
+  },
+  {
+    "url": "https://sukanya-samridhi.gov.in",
+    "title": "Sukanya Samriddhi Yojana SSY Girl Child Savings Scheme High Interest 8.2 Percent",
+    "text": "Sukanya Samriddhi Yojana SSY launched 22nd January 2015 under Beti Bachao Beti Padhao provides high interest savings scheme for girl child. Interest rate 8.2 percent per annum compounded annually. Eligibility: Girl child below 10 years one account per girl maximum two per family. Benefits: 8.2 percent interest, tax deduction under Section 80C up to Rs 1.5 lakh, maturity after 21 years, 50 percent withdrawal allowed after girl turns 18. How to Apply: Through post office or authorized bank branches. Documents: Birth certificate of girl, Aadhaar of parent/guardian, address proof."
+  },
+  {
+    "url": "https://pmmvy.wcd.gov.in",
+    "title": "PMMVY Pradhan Mantri Matru Vandana Yojana Rs 5000 Maternity Benefit for First Child",
+    "text": "PMMVY launched 1st January 2017 provides cash incentive of Rs 5000 in three installments to pregnant women and lactating mothers for first living child. Eligibility: All pregnant women and lactating mothers not employed in government or PSU, age 19 or older. Benefits: Rs 1000 on early registration, Rs 2000 after 6 months pregnancy with ANC, Rs 2000 after childbirth and registration. How to Apply: Through Anganwadi Centres or health facilities. Documents: Aadhaar card, bank account, MCP card."
+  },
+  {
+    "url": "https://kusum.mnre.gov.in",
+    "title": "PM KUSUM Yojana Solar Pump for Farmers 90 Percent Subsidy",
+    "text": "PM-KUSUM launched 2019 provides solar pumps and renewable energy for farmers. Component B provides standalone solar-powered agriculture pumps up to 7.5 HP with up to 90 percent subsidy (60 percent central, 30 percent state, 10 percent farmer). Eligibility: Individual farmers farmer groups cooperatives panchayats. Benefits: Up to 90 percent subsidy on solar pump cost, extra electricity can be sold to discoms. How to Apply: Through respective State Nodal Agency. Documents: Land ownership documents, Aadhaar card, bank account."
+  },
+  {
+    "url": "https://pmjandhanyojana.co.in",
+    "title": "Pradhan Mantri Jan Dhan Yojana PMJDY Zero Balance Account Financial Inclusion",
+    "text": "PMJDY launched 28th August 2014 provides zero-balance savings bank accounts to all citizens for comprehensive financial inclusion. Eligibility: Any Indian citizen above 10 years. Minor accounts can be opened by guardian. Benefits: Zero balance savings account, RuPay Debit Card with Rs 2 lakh accident insurance, Rs 30000 life insurance, overdraft up to Rs 10000, access to pension insurance credit. How to Apply: Through any bank branch or Business Correspondent. Documents: Aadhaar card or voter ID, driving license, passport."
+  },
+  {
+    "url": "https://standupmitra.in",
+    "title": "Stand-Up India Scheme Loans Rs 10 Lakh to Rs 1 Crore for SC/ST and Women Entrepreneurs",
+    "text": "Stand-Up India launched 5th April 2016 facilitates bank loans of Rs 10 lakh to Rs 1 crore to at least one SC/ST borrower and one woman borrower per bank branch for greenfield enterprises. Eligibility: SC/ST and women entrepreneurs above 18. In companies 51 percent shareholding by SC/ST or woman. Benefits: Composite loan covering 75 percent of project cost, repayment up to 7 years, moratorium 18 months. How to Apply: Through scheduled commercial banks or standupmitra.in. Documents: Business plan, Aadhaar, PAN, caste certificate."
+  },
+  {
+    "url": "https://pmegp.kvic.gov.in",
+    "title": "PMEGP Prime Minister Employment Generation Programme Micro Enterprise Subsidy",
+    "text": "PMEGP launched August 2008 is credit-linked subsidy scheme for micro enterprise establishment. General category: 15 percent subsidy urban, 25 percent rural. SC/ST/OBC/Women/Minorities/Ex-Servicemen/Disabled/NE region: 25 percent urban, 35 percent rural. Maximum project Rs 25 lakh manufacturing Rs 10 lakh service. Eligibility: Any individual above 18, SHGs, registered societies, cooperative societies. Benefits: 15-35 percent margin money subsidy. How to Apply: Online at pmegp.kvic.gov.in. Documents: Project report, Aadhaar, educational certificates, category certificates."
   },
   {
     "url": "https://nrlm.gov.in",
-    "title": "DAY-NRLM - Deendayal Antyodaya Yojana National Rural Livelihoods Mission",
-    "text": "Deendayal Antyodaya Yojana - National Rural Livelihoods Mission (DAY-NRLM) was launched by the Ministry of Rural Development in June 2011. The mission aims at creating efficient and effective institutional platforms for the rural poor enabling them to increase household income through sustainable livelihood enhancements and improved access to financial services. Key component is organizing women into Self-Help Groups (SHGs). Eligibility: Rural BPL households, particularly women. Priority to SC/ST, minority communities, disabled persons, migrant workers. Benefits: Organize into SHGs, access to bank loans at 7% interest rate, revolving fund up to Rs. 15,000 per SHG, Community Investment Fund. How to Apply: Through the local Block Development Office or Gram Panchayat. Documents: BPL card, Aadhaar card, bank account."
+    "title": "DAY-NRLM National Rural Livelihoods Mission Self Help Groups SHG Women Empowerment",
+    "text": "DAY-NRLM launched June 2011 organizes rural poor particularly women into Self Help Groups SHGs for sustainable livelihoods and financial access. Eligibility: Rural BPL households particularly women. Priority SC/ST minorities disabled persons migrant workers. Benefits: SHG formation, bank loans at 7 percent interest, revolving fund Rs 15000 per SHG, Community Investment Fund. How to Apply: Through Block Development Office or Gram Panchayat. Documents: BPL card, Aadhaar card, bank account."
   },
   {
-    "url": "https://india.gov.in/spotlight/post-matric-scholarship-sc-students",
-    "title": "Post Matric Scholarship for SC Students",
-    "text": "Post-Matric Scholarship for Scheduled Castes (SC) students is provided by the Ministry of Social Justice and Empowerment to assist students belonging to SC category. The scholarship is provided for studies at post-matriculation or post-secondary stage. Eligibility: Students belonging to SC category, pursuing studies at post-matric level. Parental income should not exceed Rs. 2.5 lakh per annum. Benefits: Maintenance allowance, study tour charges, thesis typing/printing charges, book allowance, additional allowances. Ranges from Rs. 380 to Rs. 1200 per month depending on the course level. How to Apply: Through the National Scholarship Portal (scholarships.gov.in). Documents: Caste certificate, income certificate, Aadhaar card, bank account, bonafide certificate."
+    "url": "https://labour.gov.in/e-shram",
+    "title": "e-Shram Portal Unorganised Worker National Database Registration Universal Account Number",
+    "text": "e-Shram portal launched 26th August 2021 creates National Database of Unorganised Workers NDUW. Eligibility: Unorganised workers aged 16-59 not covered under EPF ESIC or government NPS including construction workers migrant workers gig workers platform workers street vendors domestic workers agricultural workers. Benefits: e-Shram Card with Universal Account Number UAN, Rs 2 lakh accidental insurance under PMSBY, priority access to government schemes. How to Apply: Self-register at eshram.gov.in or Common Service Centres. Documents: Aadhaar card linked mobile number, bank account."
   },
   {
-    "url": "https://india.gov.in/spotlight/pre-matric-scholarship-st-students",
-    "title": "Pre-Matric Scholarship for ST Students",
-    "text": "Pre-Matric Scholarship for Scheduled Tribe (ST) students is provided by the Ministry of Tribal Affairs to ST students studying in Class 9 and 10. Eligibility: Students of ST category studying in Class 9 or 10 in recognized schools. Parental income should not exceed Rs. 2 lakh per annum. Day scholars and hostellers both eligible. Benefits: Day scholars: Rs. 150 per month plus Rs. 750 per year for study expenses. Hostellers: Rs. 350 per month plus Rs. 1000 per year for study expenses. How to Apply: Through the National Scholarship Portal (scholarships.gov.in). Documents: ST certificate, income certificate, Aadhaar card, bank account, school bonafide certificate."
-  },
-  {
-    "url": "https://india.gov.in/spotlight/central-sector-scheme-scholarships",
-    "title": "Central Sector Scheme of Scholarships for College & University Students",
-    "text": "Central Sector Scheme of Scholarships (CSS) for College and University Students is a scholarship by the Ministry of Education for meritorious students from low-income families to meet part of their day-to-day expenses while pursuing higher studies. Eligibility: Students who have passed Class 12 from a recognized board and are in top 20 percentile in their respective discipline, pursuing full-time regular courses (not correspondence courses), and whose parental income does not exceed Rs. 8 lakh per annum. Benefits: Rs. 12000 per annum for first three years of undergraduate study, Rs. 20000 per annum at the post-graduate level. How to Apply: Through the National Scholarship Portal (scholarships.gov.in). Documents: Class 12 mark sheet, income certificate, Aadhaar card, bank account."
-  },
-  {
-    "url": "https://india.gov.in/spotlight/national-means-merit-scholarship",
-    "title": "National Means-cum-Merit Scholarship Scheme (NMMSS)",
-    "text": "National Means-cum-Merit Scholarship Scheme (NMMSS) is a centrally sponsored scheme by the Ministry of Education to award scholarships to meritorious students of economically weaker sections to arrest their drop out at Class VIII and encourage them to continue study at secondary stage. Eligibility: Students who have passed Class VII examination with 55% marks (50% for SC/ST students), studying in Class VIII in government/government-aided schools, and whose parental income does not exceed Rs. 3.5 lakh per annum. Benefits: Rs. 12000 per year (Rs. 1000 per month). How to Apply: Through the National Scholarship Portal (scholarships.gov.in). Documents: Income certificate, Class VII mark sheet, Aadhaar card, bank account."
-  },
-  {
-    "url": "https://india.gov.in/spotlight/minority-scholarship",
-    "title": "Scholarship for Minority Students - Pre & Post Matric",
-    "text": "Scholarships for Minority Students are provided by the Ministry of Minority Affairs to students belonging to notified minority communities (Muslims, Christians, Sikhs, Buddhists, Jains and Zoroastrians/Parsis). Pre-Matric Scholarship: For students studying in Class 1 to 10. Post-Matric Scholarship: For students studying in Class 11 and above (including professional and technical courses). Merit-cum-Means Scholarship: For students pursuing professional and technical courses. Eligibility: Students belonging to notified minority communities. Income criteria applies (generally up to Rs. 1 lakh for pre-matric, Rs. 2 lakh for post-matric). Benefits: Maintenance allowance and tuition fee reimbursement ranging from Rs. 1000 to Rs. 30000 depending on the scheme. How to Apply: Through National Scholarship Portal (scholarships.gov.in). Documents: Minority community certificate, income certificate, Aadhaar card, bank account."
+    "url": "https://scholarships.gov.in",
+    "title": "National Scholarship Portal NSP Central Government Scholarships SC ST OBC Minority",
+    "text": "National Scholarship Portal NSP is one-stop platform for central government scholarships from various ministries. Includes Pre-Matric Scholarship Post-Matric Scholarship Merit-cum-Means Scholarship for SC ST OBC Minority students and Central Sector Scheme of Scholarships. Income criteria: parental income below Rs 2.5 lakh pre-matric Rs 6 lakh post-matric. Benefits: Financial assistance Rs 1000 to Rs 25000 per year. How to Apply: Register on scholarships.gov.in upload required documents. Documents: Aadhaar, income certificate, bank details, bonafide certificate from institution."
   },
   {
     "url": "https://sevasindhuservices.karnataka.gov.in/shakti",
-    "title": "Shakti Scheme (Karnataka Free Bus Travel for Women)",
-    "text": "Shakti Scheme is a flagship welfare initiative of the Government of Karnataka launched on 11th June 2023. Under the Shakti Yojana, all women, female students, and transgender persons who are residents of Karnataka can travel completely free of cost in state-run road transport corporation buses. The scheme covers KSRTC (Karnataka State Road Transport Corporation), BMTC (Bangalore Metropolitan Transport Corporation), NWKRTC (North Western Karnataka Road Transport Corporation), and KKRTC (Kalyana Karnataka Road Transport Corporation) ordinary, express, and city buses within the state boundaries of Karnataka. Eligibility: All women and transgender persons domiciled in Karnataka. Benefits: 100% free bus travel across Karnataka on state transport buses. 50% of seats in KSRTC, NWKRTC, and KKRTC ordinary and express buses are reserved for men, while the remaining 50% are reserved for women. How to Apply: Beneficiaries can travel by showing a government-issued photo ID card with residential address proof (such as Aadhaar Card, Voter ID Card, Driving License, or BPL Ration Card) to get a zero-fare ticket. Permanent Shakti Smart Cards can be applied online via the Seva Sindhu portal (sevasindhu.karnataka.gov.in) or offline at Bangalore One, Karnataka One, and Grama One centres. Documents: Aadhaar card with Karnataka address, passport-size photo."
+    "title": "Shakti Scheme Karnataka Free Bus Travel for Women on KSRTC BMTC Buses",
+    "text": "Shakti Yojana launched 11th June 2023 by Karnataka government gives all women female students and transgender persons resident of Karnataka free travel on state-run KSRTC BMTC NWKRTC KKRTC ordinary express and city buses within Karnataka. Eligibility: All women and transgender persons domiciled in Karnataka. Benefits: 100 percent free bus travel on Karnataka state transport buses. Shakti Smart Cards issued. How to Apply: Show government photo ID with Karnataka address at bus for zero-fare ticket or apply on Seva Sindhu portal sevasindhu.karnataka.gov.in. Documents: Aadhaar card with Karnataka address, passport-size photo."
   },
   {
     "url": "https://sevasindhuservices.karnataka.gov.in/gruhalakshmi",
-    "title": "Gruha Lakshmi Scheme (Karnataka Rs. 2000 Monthly Support for Women)",
-    "text": "Gruha Lakshmi Scheme was launched by the Government of Karnataka in August 2023. Under this scheme, financial assistance of Rs. 2,000 per month is directly transferred to the bank account of the woman head of every eligible household (Kartharu) in Karnataka. Eligibility: Woman head of household listed on Antyodaya, BPL, or APL ration cards issued by Karnataka Government. Women or husbands who pay income tax or GST are not eligible. Benefits: Rs. 2,000 monthly cash assistance transferred via Direct Benefit Transfer (DBT). How to Apply: Apply on Seva Sindhu portal or via Karnataka One, Grama One, and Bangalore One centres. Documents: Aadhaar card of woman head and husband, ration card, bank account linked to Aadhaar."
+    "title": "Gruha Lakshmi Scheme Karnataka Rs 2000 Monthly Cash Transfer to Women Head of Household",
+    "text": "Gruha Lakshmi Scheme launched August 2023 by Karnataka government gives Rs 2000 per month financial assistance directly to bank account of woman head of household Kartharu. Eligibility: Woman head of household listed on Antyodaya BPL or APL ration cards issued by Karnataka Government. Not eligible if woman or husband pays income tax or GST. Benefits: Rs 2000 monthly via Direct Benefit Transfer DBT. How to Apply: Apply on Seva Sindhu portal or Karnataka One Grama One Bangalore One centres. Documents: Aadhaar card of woman and husband, ration card, bank account linked to Aadhaar."
   },
   {
     "url": "https://sevasindhuservices.karnataka.gov.in/gruhajyothi",
-    "title": "Gruha Jyothi Scheme (Karnataka Free Electricity Up to 200 Units)",
-    "text": "Gruha Jyothi Scheme is a welfare program of the Government of Karnataka offering up to 200 units of free electricity per month for all residential households in Karnataka, launched in August 2023. Eligibility: All domestic consumers in Karnataka whose average monthly electricity consumption plus 10% is within 200 units. Applicable only to residential households, not commercial establishments. Benefits: Zero electricity bill if consumption is within the eligible monthly entitlement (up to 200 units). How to Apply: Register on Seva Sindhu portal using consumer account ID and Aadhaar card. Documents: Electricity bill Account ID, Aadhaar card, tenancy agreement or ownership document."
+    "title": "Gruha Jyothi Scheme Karnataka Up to 200 Units Free Electricity per Month",
+    "text": "Gruha Jyothi Scheme Karnataka launched August 2023 gives up to 200 units free electricity per month for all residential households. Eligibility: All domestic consumers in Karnataka whose monthly consumption is within 200 units. Not applicable to commercial establishments. Benefits: Zero electricity bill for consumption within 200 units per month. How to Apply: Register on Seva Sindhu portal using consumer account ID and Aadhaar. Documents: Electricity bill account ID, Aadhaar card, tenancy or ownership document."
+  },
+  {
+    "url": "https://karnataka.gov.in/yuvanidhi",
+    "title": "Yuva Nidhi Scheme Karnataka Rs 3000 Unemployment Allowance for Graduate Youth",
+    "text": "Yuva Nidhi Scheme launched 2023 Karnataka gives unemployment allowance of Rs 3000 per month for graduates and Rs 1500 per month for diploma holders for up to 2 years until employment. Eligibility: Karnataka domicile graduates and diploma holders passing out from 2022-23 onwards. Not engaged in any job or self-employment. Family annual income below Rs 3 lakh. Age 18-25 years. How to Apply: Apply online on Yuva Nidhi portal yuvanidhikarnataka.karnataka.gov.in or through Seva Sindhu. Documents: Degree/diploma certificate, Aadhaar, domicile proof, income certificate, bank account."
+  },
+  {
+    "url": "https://karnataka.gov.in/annabhagya",
+    "title": "Anna Bhagya Scheme Karnataka 10 kg Free Rice per Person per Month for BPL Families",
+    "text": "Anna Bhagya Scheme Karnataka gives 10 kg free rice per person per month to BPL Antyodaya and Annapoorna ration cardholders. Eligibility: Households with BPL AAY Antyodaya Anna Yojana and Annapoorna ration cards in Karnataka. Benefits: 10 kg free rice per person per month. How to Apply: Through existing ration card system or apply at Food Civil Supplies office or Seva Sindhu portal for new ration cards. Documents: Ration card, Aadhaar card."
+  },
+  {
+    "url": "https://rythu.telangana.gov.in",
+    "title": "Rythu Bandhu Scheme Telangana Rs 10000 Per Acre Per Year Farmer Investment Support",
+    "text": "Rythu Bandhu Farmer Friend scheme launched 2018 Telangana gives Rs 10000 per acre per year (Rs 5000 per acre per season Kharif and Rabi) as investment support to all landholding farmers. Amount directly credited to farmer bank account. Eligibility: All landholding farmers in Telangana. Land must be registered in farmer name on Dharani portal. Benefits: Rs 5000 per acre per crop season directly to bank account. How to Apply: No separate application needed. Auto-identified from Dharani land records. Aadhaar must be linked to land records and bank account. Documents: Pattadar Passbook land records, Aadhaar card, bank account."
+  },
+  {
+    "url": "https://aasara.telangana.gov.in",
+    "title": "Aasara Pension Telangana Social Security Pension for Old Age Widows Disabled Weavers",
+    "text": "Aasara Pension Telangana gives social security pension to old age persons (women above 57, men above 61), widows, weavers, toddy tappers, disabled persons with 75 percent plus disability and HIV/AIDS affected persons from BPL families. Benefits: Rs 2016 per month for old age and widow pensioners, Rs 3016 per month for disability and special categories. How to Apply: Through Gram Panchayat, Municipal Ward Office, or Meeseva portal. Documents: Age proof, income BPL certificate, Aadhaar, bank account."
+  },
+  {
+    "url": "https://kcrkit.telangana.gov.in",
+    "title": "KCR Kit Scheme Telangana Maternal and Newborn Essential Items Kit for Institutional Delivery",
+    "text": "KCR Kit Telangana scheme gives essential items kit worth Rs 12000 to Rs 16000 including clothes nutritional supplements soap towels and other items to pregnant women delivering in government hospitals to incentivize institutional deliveries. Also includes Rs 12000 cash assistance in some categories. Eligibility: All pregnant women delivering in government or accredited hospitals in Telangana. How to Apply: Register at nearest government hospital or PHC during pregnancy. Documents: Aadhaar card, pregnancy registration card."
+  },
+  {
+    "url": "https://ap.gov.in/ysr-rythu-bharosa",
+    "title": "YSR Rythu Bharosa Andhra Pradesh Rs 13500 per Year for Farmers Including Tenant Farmers",
+    "text": "YSR Rythu Bharosa Andhra Pradesh gives Rs 13500 per year to eligible farmers (Rs 6000 from PM-KISAN plus Rs 7500 from AP state government). Also provides zero interest crop loans and reimbursement of cultivation investment cost for tenant farmers and sharecroppers. Eligibility: All agricultural landholding farmers in Andhra Pradesh including tenant farmers and sharecroppers. How to Apply: Through Revenue and Agriculture departments or AP Farmer portal. Documents: Land records Pattadar passbook, Aadhaar, bank account."
+  },
+  {
+    "url": "https://ap.gov.in/amma-vodi",
+    "title": "Amma Vodi Andhra Pradesh Rs 15000 Annual Cash to Mothers of Government School Children",
+    "text": "Amma Vodi Mother Lap scheme launched 26th January 2020 Andhra Pradesh gives Rs 15000 per year to mothers or guardians of children studying in government schools as incentive for school enrolment. Benefits: Rs 15000 per year per student directly to mother bank account. Eligibility: Mothers or guardians of children in AP government schools Classes 1 to 12 from economically weaker sections. How to Apply: Automatic from school enrolment records. Aadhaar must be linked with bank account. Documents: Aadhaar, child school enrolment record, bank account."
+  },
+  {
+    "url": "https://ap.gov.in/jagananna-vidya-deevena",
+    "title": "Jagananna Vidya Deevena Andhra Pradesh Full Tuition Fee Reimbursement for SC ST BC Higher Education",
+    "text": "Jagananna Vidya Deevena Andhra Pradesh provides complete tuition fee reimbursement for SC ST BC EBC Kapu Minority community students in higher education including engineering medical and professional courses. Eligibility: Students from SC ST BC EBC Kapu Minority communities in AP. Parental income not exceeding Rs 2.5 lakh for BC/EBC and Rs 1 lakh for SC/ST. Benefits: Complete tuition fee reimbursement directly to student bank account. How to Apply: Through college institution or online at ap.gov.in. Documents: Community certificate, income certificate, Aadhaar, fee receipt, bank account."
+  },
+  {
+    "url": "https://ap.gov.in/ysr-cheyutha",
+    "title": "YSR Cheyutha Andhra Pradesh Rs 18750 per Year for BC EBC Kapu Minority Women Self-Employment",
+    "text": "YSR Cheyutha AP gives Rs 18750 per year to women from BC EBC Kapu and Minority communities aged 45-60 years to support self-employment. Total benefit Rs 75000 over 4 years directly to bank account. Eligibility: Women aged 45-60 from BC EBC Kapu Minority communities in AP. Annual family income below Rs 1.5 lakh. Not employed in government. How to Apply: Through Gram Volunteer or online at ap.gov.in. Documents: Community certificate, income certificate, Aadhaar, bank account."
+  },
+  {
+    "url": "https://wbschemes.wb.gov.in/kanyashree",
+    "title": "Kanyashree Prakalpa West Bengal Conditional Cash Scholarship to Prevent Girl Dropout and Child Marriage",
+    "text": "Kanyashree Prakalpa launched 2013 West Bengal UN Public Service Award 2017 winner gives conditional cash transfer to prevent dropout and delay marriage of girls. K1 Annual Scholarship Rs 1000 per year for girls aged 13-18 in class 8-12 in government or government-aided schools in West Bengal. K2 One-time Grant Rs 25000 on turning 18 if unmarried and enrolled in higher education. Eligibility: Girl students 13-18 years. Family annual income below Rs 1.2 lakh. Benefits: K1 Rs 1000 annually, K2 Rs 25000 one-time. How to Apply: Through school. Documents: Birth certificate, school enrolment, income certificate, Aadhaar, bank account in girl name."
+  },
+  {
+    "url": "https://wb.gov.in/swasthya-sathi",
+    "title": "Swasthya Sathi West Bengal Universal Health Insurance Rs 5 Lakh for All Families",
+    "text": "Swasthya Sathi launched 2016 West Bengal gives universal health insurance of Rs 5 lakh per family per year for all families. Cashless treatment at over 1600 empanelled hospitals. Smart card in woman head name. Covers pre-existing diseases maternity benefits critical illnesses. Eligibility: All families in West Bengal priority to BPL construction workers agricultural workers. How to Apply: Enroll at district health office Duare Sarkar camps or online. Documents: Aadhaar, voter ID, ration card."
+  },
+  {
+    "url": "https://wb.gov.in/krishak-bandhu",
+    "title": "Krishak Bandhu West Bengal Rs 10000 Per Acre Farmer Support and Rs 2 Lakh Death Benefit",
+    "text": "Krishak Bandhu West Bengal gives crop investment support Rs 10000 per acre per year (Rs 5000 per season Kharif and Rabi) and Rs 2 lakh death benefit life insurance to farmers. Minimum Rs 4000 even for small holdings. Eligibility: Farmers with agricultural land in West Bengal minimum 1 katha land. Death benefit for registered farmers aged 18-60 years. How to Apply: Register at BDO office or krishakbandhu.net. Documents: Khatian land records, Aadhaar, bank account."
+  },
+  {
+    "url": "https://wb.gov.in/duare-sarkar",
+    "title": "Duare Sarkar West Bengal Government at Doorstep Multiple Scheme Enrollment at Camps",
+    "text": "Duare Sarkar Government at Doorstep West Bengal holds camps at block and gram panchayat levels where officials process 30 plus welfare scheme applications on the spot. Covers Swasthya Sathi, Kanyashree, Rupashree, Krishak Bandhu, Jai Bangla pension, Aikyashree, Shikshashree and others. Eligibility: All residents of West Bengal. How to Apply: Visit nearest Duare Sarkar camp. Documents: Aadhaar, ration card, birth certificate and relevant documents."
+  },
+  {
+    "url": "https://www.mp.gov.in/ladli-behna",
+    "title": "Ladli Behna Yojana Madhya Pradesh Rs 1250 per Month Financial Assistance to Married Women",
+    "text": "Ladli Behna Yojana launched 5th March 2023 Madhya Pradesh gives Rs 1250 per month (Rs 15000 per year) to eligible married women of Madhya Pradesh directly credited to bank account. Eligibility: Married women aged 21-60 years residents of MP. Annual family income not exceeding Rs 2.5 lakh. Not an income taxpayer. Family member not in government job or owning more than 5 acres land or four-wheeled vehicle. How to Apply: At Ladli Behna Yojana camps at gram panchayat or ward level or online at cmladlibahna.mp.gov.in. Documents: Aadhaar, Samagra ID, bank account, income certificate."
+  },
+  {
+    "url": "https://www.mp.gov.in/kisan-kalyan",
+    "title": "Mukhyamantri Kisan Kalyan Yojana Madhya Pradesh Rs 4000 Additional Annual Support to PM-KISAN Farmers",
+    "text": "Mukhyamantri Kisan Kalyan Yojana Madhya Pradesh gives Rs 4000 per year additional support to PM-KISAN beneficiaries in MP in two installments of Rs 2000 each making total farmer support Rs 10000 per year. Eligibility: All PM-KISAN beneficiary farmers in Madhya Pradesh. Benefits: Rs 2000 per installment two installments per year in addition to PM-KISAN. How to Apply: No separate application. Automatic for PM-KISAN registered farmers. Documents: PM-KISAN registration, Aadhaar, bank account."
+  },
+  {
+    "url": "https://chiranjeevi.rajasthan.gov.in",
+    "title": "Mukhyamantri Chiranjeevi Swasthya Bima Yojana Rajasthan Universal Health Insurance Rs 25 Lakh",
+    "text": "Mukhyamantri Chiranjeevi Swasthya Bima Yojana Rajasthan launched 1st May 2021 provides universal health coverage. BPL NFSA small marginal farmers contractual employees covered FREE. Others at Rs 850 per year premium. Benefits: Rs 25 lakh per family per year for major illnesses, Rs 10 lakh for basic hospitalisation. 1597 medical surgical packages. Cashless treatment at over 900 hospitals. How to Apply: Register on Jan Aadhaar portal janaadhaar.rajasthan.gov.in or through e-Mitra. Documents: Jan Aadhaar card, Aadhaar card, mobile number."
+  },
+  {
+    "url": "https://rajssp.raj.nic.in",
+    "title": "Rajasthan Social Security Pension Mukhyamantri Vridhjan Samman Pension Old Age Widow Disability",
+    "text": "Rajasthan Social Security Pensions include Mukhyamantri Vridhjan Samman Pension Rs 750 per month for men 58-74 years and women 55-74 years from BPL families and Rs 1000 per month for those 75 years and above. Also Widow Pension Rs 500-1500 per month and Disability Pension. How to Apply: Through e-Mitra kiosk or emitra.rajasthan.gov.in. Documents: BPL card, age proof, Aadhaar, bank account."
+  },
+  {
+    "url": "https://maharashtra.gov.in/mjpjay",
+    "title": "Mahatma Jyotirao Phule Jan Arogya Yojana Maharashtra Health Insurance Rs 5 Lakh",
+    "text": "Mahatma Jyotirao Phule Jan Arogya Yojana MJPJAY Maharashtra integrated with PM-JAY gives cashless hospitalisation of Rs 5 lakh per family per year. Eligibility: Yellow ration card orange ration card AAY cardholders farmers families under PM-JAY journalists construction workers registered with BOCW Board. Benefits: Rs 5 lakh per family per year covering 1083 procedures across 34 specialties at government and empanelled private hospitals. How to Apply: Show ration card or eligibility document at empanelled hospital. Documents: Yellow or Orange ration card, Aadhaar."
+  },
+  {
+    "url": "https://bscstudent.bihar.gov.in",
+    "title": "Bihar Student Credit Card Scheme Rs 4 Lakh Zero Interest Education Loan After 12th",
+    "text": "Bihar Student Credit Card Scheme BSCC launched 2nd October 2016 provides educational loans up to Rs 4 lakh at zero percent interest to students who want to pursue higher education after Class 12. Eligibility: Students who passed 12th from Bihar recognized school. Age below 25 years. Enrolled in recognized college for graduation postgraduation technical vocational professional courses. Benefits: Loan Rs 4 lakh at 0 percent interest no collateral required covering tuition hostel books. How to Apply: Online at 7nishchay-yuvaupmission.bihar.gov.in or District Registration and Counseling Centres DRCC. Documents: Aadhaar, 12th mark sheet, admission proof, income certificate, bank account."
+  },
+  {
+    "url": "https://sspmis.bihar.gov.in",
+    "title": "Mukhyamantri Vridhjan Pension Yojana Bihar Universal Old Age Pension Above 60 Years",
+    "text": "Mukhyamantri Vridhjan Pension Yojana MVPY Bihar launched 1st April 2019 provides pension to all Bihar residents above 60 years regardless of economic status. Benefits: Rs 400 per month for persons aged 60-79 years. Rs 500 per month for persons 80 years or above. Directly credited to bank account. Eligibility: Bihar residents 60 years or above not covered under any other government pension. How to Apply: Online at sspmis.bihar.gov.in or Block Development Office. Documents: Age proof, Aadhaar, bank account, identity proof."
+  },
+  {
+    "url": "https://gujfood.gujarat.gov.in/MA",
+    "title": "Mukhyamantri Amrutam MA Yojana Gujarat Health Insurance BPL Families",
+    "text": "Mukhyamantri Amrutam MA Yojana and MA Vatsalya MAV Gujarat state health insurance integrated with PM-JAY. MA for BPL construction workers small traders street vendors. MAV for families with annual income up to Rs 6 lakh. Benefits: Rs 5 lakh per family per year for secondary and tertiary healthcare. Cashless treatment at empanelled hospitals. How to Apply: Through empanelled hospitals or Jan Seva Kendra. Documents: MA/MAV card or ration card, Aadhaar."
+  },
+  {
+    "url": "https://gujarat.gov.in/namo-saraswati",
+    "title": "Namo Saraswati Vigyaan Sadhana Yojana Gujarat Rs 25000 Science Scholarship for Girls Class 11 12",
+    "text": "Namo Saraswati Vigyaan Sadhana Yojana Gujarat 2024 gives Rs 10000 in Class 11 and Rs 15000 in Class 12 total Rs 25000 to girls in science stream to encourage STEM careers. Eligibility: Girls residents of Gujarat studying in science in classes 11-12. Family annual income below Rs 2 lakh. Minimum 50 percent in Class 10 (45 percent for SC/ST). How to Apply: Apply through school or e-Gram Vishwagram centres. Documents: Aadhaar, Class 10 mark sheet, income certificate, bank account."
+  },
+  {
+    "url": "https://orunodoi.assam.gov.in",
+    "title": "Orunodoi Scheme Assam Rs 1430 Monthly Cash for Women in Poor Families",
+    "text": "Orunodoi New Dawn scheme Assam flagship welfare gives Rs 1430 per month (Rs 17160 per year) to women of poor families directly to bank account. Eligibility: Women of poor families in Assam. Annual household income below Rs 2 lakh. Woman as head of household or wife. Families with government employees above Group D not eligible. How to Apply: Apply online at assam.gov.in or district administration offices. Documents: Aadhaar, bank account in woman name, income proof, residence proof."
+  },
+  {
+    "url": "https://odisha.gov.in/kalia",
+    "title": "KALIA Yojana Odisha Farmer and Landless Agricultural Worker Support Rs 10000 Per Year",
+    "text": "KALIA Krushak Assistance for Livelihood and Income Augmentation Odisha launched 2019 gives Rs 5000 per season (Rs 10000 per year) to farming families and Rs 12500 per year to landless agricultural households. Also provides Rs 2 lakh life insurance at Re 1 premium and Rs 2 lakh accident insurance. Eligibility: Small marginal farmers landowners in Odisha. Sharecroppers tenant farmers and landless agricultural laborers for livelihood support. How to Apply: Register at kalia.co.in. Documents: Aadhaar, land records for farmers, bank account."
+  },
+  {
+    "url": "https://odisha.gov.in/bsku",
+    "title": "Biju Swasthya Kalyan Yojana BSKY Odisha Rs 5 Lakh Men Rs 10 Lakh Women Health Insurance",
+    "text": "Biju Swasthya Kalyan Yojana BSKY Odisha integrated with Ayushman Bharat provides health cover of Rs 5 lakh for men and Rs 10 lakh for women per family per year. All NFSA ration card holders covered. Smart Health Card issued. Eligibility: All NFSA yellow green pink ration card holders in Odisha. Benefits: Rs 5 lakh for men Rs 10 lakh for women cashless treatment at government and empanelled hospitals. Covers 1700 plus procedures and pre-existing diseases. How to Apply: BSKY Smart Health Card issued automatically at gram panchayat offices. Documents: Aadhaar, NFSA ration card."
+  },
+  {
+    "url": "https://cg.gov.in/rgkny",
+    "title": "Rajiv Gandhi Kisan Nyay Yojana Chhattisgarh Input Assistance Rs 9000 Per Acre for Paddy Farmers",
+    "text": "Rajiv Gandhi Kisan Nyay Yojana RGKNY Chhattisgarh launched Kharif 2019 gives input cost assistance to farmers for paddy (Rs 9000 per acre per year up to 2 acres), maize kodo-kutki (Rs 4000 per acre) and other crops. Includes tenant farmers and forest title deed vanpatta holders. Eligibility: All landholding farmers in Chhattisgarh growing notified crops. How to Apply: Registration at Gram Panchayat or Agriculture department. Documents: Land records, Aadhaar, bank account."
+  },
+  {
+    "url": "https://jharkhand.gov.in/sukha-rahat",
+    "title": "Mukhyamantri Sukha Rahat Yojana Jharkhand Rs 3500 Per Acre Drought Relief for Farmers",
+    "text": "Mukhyamantri Sukha Rahat Yojana Jharkhand gives Rs 3500 per acre financial assistance to farmers with certified crop loss due to drought directly to bank account. Eligibility: Farmers in Jharkhand with land registered in their name and crop loss certified by revenue officials. How to Apply: Apply at District Agriculture Office or gram panchayat. Documents: Land records, crop loss certificate from patwari, Aadhaar, bank account."
+  },
+  {
+    "url": "https://tnhealth.tn.gov.in/cmchis",
+    "title": "CMCHIS Chief Minister Comprehensive Health Insurance Scheme Tamil Nadu Rs 5 Lakh for Low Income Families",
+    "text": "CMCHIS Tamil Nadu flagship health insurance gives free health insurance coverage of Rs 5 lakh per family per year to families with annual income below Rs 72000 (Rs 6000 per month). Covers 23 lakh families and over 1 crore beneficiaries. Eligibility: Tamil Nadu families with income below Rs 72000 per year, BPL families construction workers weavers auto-rickshaw drivers. Benefits: Rs 5 lakh per family per year covering 1027 procedures cashless at government and empanelled private hospitals. How to Apply: Enroll at District Collectorate or Taluk Office or Government Hospitals. Documents: Income certificate, Aadhaar, ration card."
+  },
+  {
+    "url": "https://kerala.gov.in/karunya",
+    "title": "Karunya Health Scheme Kerala Critical Illness Financial Assistance for BPL Families",
+    "text": "Karunya Health Scheme Kerala merged with Ayushman Bharat Arogya Kerala gives financial assistance up to Rs 3 lakh (Rs 5 lakh for PM-JAY eligible) to BPL families with annual income below Rs 1 lakh for costly critical illness treatment including cancer kidney diseases heart surgeries. How to Apply: Through empanelled hospitals or District Medical Officer office. Documents: BPL certificate, Aadhaar, medical documents, income certificate."
+  },
+  {
+    "url": "https://up.gov.in/kanya-sumangala",
+    "title": "Kanya Sumangala Yojana Uttar Pradesh Rs 15000 Girl Child Support in 6 Stages from Birth to College",
+    "text": "Kanya Sumangala Yojana UP launched 2019 gives Rs 15000 total in 6 stages: birth Rs 2000, first year immunization Rs 1000, Class 1 admission Rs 2000, Class 6 admission Rs 2000, Class 9 admission Rs 3000, graduation diploma admission Rs 5000. Eligibility: Girl child born after 1st April 2019 in UP, UP domicile required, family income not exceeding Rs 3 lakh per annum, maximum 2 girls per family. How to Apply: Online at mksy.up.gov.in or Anganwadi Centre. Documents: Birth certificate, Aadhaar, income certificate, school enrolment, bank account."
+  },
+  {
+    "url": "https://scholarship.up.gov.in",
+    "title": "UP Scholarship Uttar Pradesh Pre Post Matric Scholarship for SC ST OBC Minority EWS Students",
+    "text": "UP Scholarship portal covers Pre-Matric Class 9-10 and Post-Matric Class 11 onwards scholarships for SC ST OBC General-EWS and Minority students in Uttar Pradesh. Eligibility: Students in recognized schools or colleges in UP. SC/ST income up to Rs 2.5 lakh. OBC/GEN-EWS income up to Rs 2 lakh. Minority income up to Rs 2 lakh. Benefits: Pre-matric Rs 2000-7000 per year, Post-matric Rs 3000-15000 per year, course fee reimbursement for professional courses. How to Apply: Online at scholarship.up.gov.in. Documents: Aadhaar, category certificate, income certificate, bank account, enrolment proof, mark sheets."
+  },
+  {
+    "url": "https://haryana.gov.in/mpssy",
+    "title": "Mukhyamantri Parivar Samridhi Yojana Haryana Rs 6000 per Year Family Support Linked to Parivar Pehchan Patra",
+    "text": "Mukhyamantri Parivar Samridhi Yojana MPSSY Haryana gives Rs 6000 per year to eligible families in small farmer and unorganised worker categories linked to Parivar Pehchan Patra PPP family ID. PPP enables auto-delivery of multiple scheme benefits. Eligibility: Haryana families with annual income up to Rs 1.8 lakh or land holding up to 2 hectares. Benefits: Rs 6000 per year and access to pension insurance credit products. How to Apply: Register for PPP at Common Service Centre Saral Kendra or meraparivar.haryana.gov.in. Documents: Aadhaar of all family members, mobile number."
+  },
+  {
+    "url": "https://punjab.gov.in/ashirwad",
+    "title": "Ashirwad Scheme Punjab Rs 51000 Marriage Financial Assistance for BPL and SC Daughters",
+    "text": "Ashirwad Scheme Punjab gives Rs 51000 financial assistance for marriage of daughters to BPL families SC families registered construction workers and widows in Punjab. Eligibility: BPL families, SC families, registered construction workers, widows in Punjab. Benefits: Rs 51000 one-time for first and second daughter marriage. How to Apply: Apply through District Social Security Officer or SEWA Kendra. Documents: BPL card or SC certificate, income certificate, marriage card, Aadhaar, bank account."
+  },
+  {
+    "url": "https://hp.gov.in/sahara",
+    "title": "Sahara Yojana Himachal Pradesh Rs 3000 Monthly Support for Cancer Kidney Failure Serious Disease Patients",
+    "text": "Sahara Yojana Himachal Pradesh gives Rs 3000 per month financial assistance to patients from BPL families or income below Rs 4 lakh suffering serious chronic diseases including Cancer Parkinson Disease Paralysis Muscular Dystrophy Thalassemia Haemophilia Chronic Renal Failure for one year renewable. How to Apply: Apply through District Medical Officer or government hospital. Documents: Medical certificate, BPL card or income certificate, Aadhaar, bank account."
+  },
+  {
+    "url": "https://goa.gov.in/dsss",
+    "title": "Dayanand Social Security Scheme Goa Universal Pension Rs 2500 to Rs 5000 per Month for All Residents",
+    "text": "Dayanand Social Security Scheme DSSS Goa gives universal pension to all Goa residents above 18 years not covered under any other pension. Must reside in Goa for 15 years. Benefits: Rs 2500 per month for disabled economically weaker persons aged 18-59 years, Rs 2500 per month for senior citizens above 60, Rs 5000 per month for persons above 80. How to Apply: Through Collectorate or Social Welfare office in Goa. Documents: Domicile certificate, Aadhaar, age proof, income proof, bank account."
+  },
+  {
+    "url": "https://uttarakhand.gov.in/vatsalya",
+    "title": "Vatsalya Yojana Uttarakhand Rs 2500 Monthly for Orphaned Children Both Parents Deceased",
+    "text": "Vatsalya Yojana Uttarakhand gives Rs 2500 per month to orphaned children where both parents are deceased and continues educational support from 18 to 21 years with vocational training opportunities. Eligibility: Orphaned children both parents deceased below 18 years in Uttarakhand. How to Apply: Through Bal Vikas Pariyojana office or Social Welfare Department. Documents: Death certificates of both parents, birth certificate, Aadhaar, bank account, residence proof."
+  },
+  {
+    "url": "https://kerala.gov.in/karshaka-kshemanidhi",
+    "title": "Kerala Karshaka Kshemanidhi Farmer Welfare Fund Rs 600 Monthly Pension After 60",
+    "text": "Kerala Karshaka Kshemanidhi provides welfare benefits to farmers and agricultural workers registered with Karshaka Kshemanidhi Board including pension of Rs 600 per month after retirement at 60. Also provides Rs 1 lakh death benefit, Rs 5000 wedding assistance for daughter, educational scholarships. Eligibility: Farmers and agricultural workers in Kerala aged 18-60, engaged in farming horticulture allied activities, annual income below Rs 1.5 lakh. How to Apply: Through Krishi Bhavan or Agriculture Department office. Documents: Land records or cultivation proof, Aadhaar, age proof, income proof."
+  },
+  {
+    "url": "https://punjab.gov.in/atta-dal",
+    "title": "Atta Dal Scheme Punjab Blue Card Subsidised Wheat Flour and Lentils for BPL Families",
+    "text": "Atta Dal Scheme Punjab Blue Card scheme gives subsidized atta wheat flour at Rs 2 per kg (5 kg per person per month) and dal lentils at Rs 20 per kg (1 kg per family per month) to below poverty line BPL families and migrant labourers working in Punjab. Eligibility: Families holding Blue Cards BPL card in Punjab and migrant laborers families. How to Apply: Apply for Blue Card through Food and Civil Supplies office or Deputy Commissioner office. Documents: Proof of BPL status, Aadhaar, residence proof, income certificate."
+  },
+  {
+    "url": "https://amma-unavagam.tn.gov.in",
+    "title": "Amma Unavagam Tamil Nadu Subsidised Canteen Scheme Idli Rs 1 Meals Rs 10 for Daily Workers",
+    "text": "Amma Unavagam Amma Canteen scheme Tamil Nadu launched June 2013 provides subsidized affordable food to daily wage workers construction workers students and common people at government-run canteens. Idli 2 pieces at Rs 1, Pongal at Rs 5, Sambar Rice at Rs 5, Curd Rice at Rs 5, Full Meals at Rs 10 to Rs 20. Eligibility: Open to all residents of Tamil Nadu. No application needed. Benefits: Affordable subsidized food in public areas. How to Apply: Visit nearest Amma Unavagam canteen located at bus stands railway stations markets."
   }
 ]

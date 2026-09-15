@@ -63,19 +63,20 @@ class RAGService:
 
     # Define System Prompt as Class Attribute or Method
     SYSTEM_PROMPT = """You are 'Gramin Saathi', a helpful and knowledgeable AI assistant dedicated to helping Indian citizens understand government schemes (Yojanas).
-    
-    Your Goal: Provide accurate, easy-to-understand information about eligibility, benefits, and application processes for schemes like PM-KISAN, Ayushman Bharat, etc.
-    
+
+    PRIMARY RULE: You MUST answer all scheme-related questions using ONLY the provided Context Information (retrieved from the RAG knowledge base). Do NOT invent scheme details that are not in the context.
+
     Identity & Persona:
-    - If asked "who are you", "what are you", or about your identity, YOU MUST ALways answer: "I am Gramin Saathi, a dedicated AI assistant created to help you with government schemes."
+    - If asked "who are you", "what are you", or about your identity, YOU MUST ALWAYS answer: "I am Gramin Saathi, a dedicated AI assistant created to help you with government schemes."
     - NEVER say you are "trained by Google" or "a large language model".
-    
+
     Guidelines:
     - Be polite, empathetic, and clear.
-    - If the user asks about a specific scheme, use the provided context.
-    - If the context is missing, use your general knowledge but mention that you are not sure about the latest updates.
+    - Answer ONLY from the provided Context Information. If the context has relevant information, use it fully.
+    - If the context is insufficient or empty, say: "I don't have specific information about this in my knowledge base. Please visit the official government portal or contact your nearest Common Service Centre."
     - Format your answers with clear headings and bullet points.
     - Always answer in the requested language (or English + Translation if requested).
+    - Do NOT use generic internet knowledge; rely ONLY on the context provided.
     """
 
     def _init_llm(self):
@@ -658,10 +659,14 @@ class RAGService:
             print(f"[HYBRID RAG] Dense hits: {dense_hits} | BM25 hits: {bm25_hits}")
             logger.info(f"Hybrid retrieval: {len(hybrid_chunks)} chunks in {time.time()-t_retr:.2f}s")
 
-            # ── Relevance decision ───────────────────────────────────────────
-            # Cross-encoder scores are logits (can be negative).
-            # ms-marco-MiniLM scores > 0 indicate relevance; < -3 = clearly irrelevant.
-            CE_THRESHOLD = -2.0
+            # ── RAG-First Relevance Decision ─────────────────────────────────
+            # Policy: ALL answers must come from RAG knowledge base.
+            # 1. RAG returned chunks with good score  → use them (best case)
+            # 2. RAG returned chunks with low score   → still use them + note low confidence
+            # 3. RAG returned ZERO chunks             → LLM last-resort with clear disclaimer
+            # Web search fallback REMOVED — all scheme answers must come from knowledge base.
+
+            CE_THRESHOLD = -2.0  # kept for logging / quality labeling
 
             def is_content_useful(content: str) -> bool:
                 if not content or len(content.strip()) < 50:
@@ -673,40 +678,41 @@ class RAGService:
 
             best_text = hybrid_chunks[0].text if hybrid_chunks else ""
             content_useful = is_content_useful(best_text)
-            print(f"[HYBRID RAG] Content useful: {content_useful} | CE threshold: {CE_THRESHOLD}")
-            
-            if best_score >= CE_THRESHOLD and content_useful and hybrid_chunks:
-                # Good hybrid context found
+            lang_tag = f", {detected_lang}" if is_multilingual else ""
+
+            print(f"[RAG-FIRST] Chunks: {len(hybrid_chunks)} | Best CE: {best_score:.3f} | Useful: {content_useful}")
+
+            if hybrid_chunks and (content_useful or best_score >= CE_THRESHOLD):
+                # Good RAG context — use it directly
                 analyze_step["status"] = "success"
                 yield send_steps(steps)
                 context_text_final = context_text
-                lang_tag = f", {detected_lang}" if is_multilingual else ""
                 source_label = f"Hybrid RAG (Pinecone+BM25+CE{lang_tag})"
-                print(f"[HYBRID RAG] Using hybrid context (CE score {best_score:.3f} >= {CE_THRESHOLD})")
+                print(f"[RAG-FIRST] Using RAG context — CE score {best_score:.3f}")
+
+            elif hybrid_chunks:
+                # Chunks exist but low quality — still prefer RAG over web/LLM
+                analyze_step["status"] = "success"
+                yield send_steps(steps)
+                context_text_final = context_text
+                source_label = f"Hybrid RAG (Pinecone+BM25+CE{lang_tag}, low-confidence)"
+                print(f"[RAG-FIRST] Low-confidence RAG context — using it with disclaimer")
+
             else:
-                # Low relevance — fallback to web search
+                # Zero chunks — LLM last-resort with explicit disclaimer
                 analyze_step["status"] = "completed"
-                reason = f"CE score {best_score:.3f} < {CE_THRESHOLD}" if best_score < CE_THRESHOLD else "content not useful"
-                print(f"[HYBRID RAG] {reason} — triggering web search")
-                
-                web_step = {"name": "Context Missing — Searching Web", "status": "in-progress", "timestamp": str(time.time())}
-                steps.append(web_step)
+                print(f"[RAG-FIRST] Zero RAG chunks — triggering AI last-resort with disclaimer")
+                fallback_step = {
+                    "name": "Scheme Not in Knowledge Base — AI Answering",
+                    "status": "in-progress",
+                    "timestamp": str(time.time())
+                }
+                steps.append(fallback_step)
                 yield send_steps(steps)
-
-                search_context = self._web_search(query)
-                context_text_final = search_context
-                time.sleep(0.5)
-
-                print(f"[HYBRID RAG] Web search: {len(search_context) if search_context else 0} chars")
-
-                if search_context:
-                    web_step["status"] = "success"
-                    source_label = "Web Search"
-                else:
-                    web_step["status"] = "failed"
-                    source_label = "General Knowledge"
-                    context_text_final = ""
-                yield send_steps(steps)
+                context_text_final = ""
+                source_label = "AI Fallback (no matching scheme found in knowledge base)"
+                fallback_step["status"] = "completed"
+                yield send_steps(steps, fallback_step)
 
             # 5. Generate
             gen_step = {"name": f"Generating Answer ({source_label})", "status": "in-progress", "timestamp": str(time.time())}
@@ -720,9 +726,12 @@ class RAGService:
             full_prompt = (
                 f"System Instructions:\n{self.SYSTEM_PROMPT}\n\n"
                 f"Chat History:\n{chat_context}\n\n"
-                f"Context Information ({source_label}):\n{context_text_final}\n\n"
+                f"Context Information (RAG Knowledge Base - {source_label}):\n{context_text_final}\n\n"
                 f"User Question: {query}\n\n"
-                "Instruction: Answer the question based on the Context Information above. Answer in English first."
+                "Instruction: Answer the user question STRICTLY based on the Context Information above. "
+                "If the context contains relevant information, provide a detailed helpful answer. "
+                "If the context does not contain enough information to answer, say: 'I don't have specific details about this in my knowledge base. Please visit the official government portal or your nearest Common Service Centre.' "
+                "Do NOT use general internet knowledge for scheme details. Answer in English first."
             )
             if target_language and target_language != "English":
                 full_prompt += f" Then provide a translation in {target_language}."
