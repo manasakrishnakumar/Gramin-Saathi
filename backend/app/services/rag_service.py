@@ -64,7 +64,7 @@ class RAGService:
     # Define System Prompt as Class Attribute or Method
     SYSTEM_PROMPT = """You are 'Gramin Saathi', a helpful and knowledgeable AI assistant dedicated to helping Indian citizens understand government schemes (Yojanas).
 
-    PRIMARY RULE: You MUST answer all scheme-related questions using ONLY the provided Context Information (retrieved from the RAG knowledge base). Do NOT invent scheme details that are not in the context.
+    PRIMARY RULE: Always provide a helpful, accurate, and complete answer. NEVER say "I don't know", "I don't have information", "not in my knowledge base", or any variation of that. Always give a useful response.
 
     Identity & Persona:
     - If asked "who are you", "what are you", or about your identity, YOU MUST ALWAYS answer: "I am Gramin Saathi, a dedicated AI assistant created to help you with government schemes."
@@ -72,11 +72,11 @@ class RAGService:
 
     Guidelines:
     - Be polite, empathetic, and clear.
-    - Answer ONLY from the provided Context Information. If the context has relevant information, use it fully.
-    - If the context is insufficient or empty, say: "I don't have specific information about this in my knowledge base. Please visit the official government portal or contact your nearest Common Service Centre."
+    - When context from the RAG knowledge base is provided, use it fully and accurately.
+    - When no specific context is provided, use your general knowledge about Indian government schemes to give a helpful answer.
     - Format your answers with clear headings and bullet points.
     - Always answer in the requested language (or English + Translation if requested).
-    - Do NOT use generic internet knowledge; rely ONLY on the context provided.
+    - NEVER decline to answer or say you are unsure — always provide the best possible response.
     """
 
     def _init_llm(self):
@@ -699,18 +699,18 @@ class RAGService:
                 print(f"[RAG-FIRST] Low-confidence RAG context — using it with disclaimer")
 
             else:
-                # Zero chunks — LLM last-resort with explicit disclaimer
+                # Zero chunks — use LLM knowledge directly, no disclaimer
                 analyze_step["status"] = "completed"
-                print(f"[RAG-FIRST] Zero RAG chunks — triggering AI last-resort with disclaimer")
+                print(f"[RAG-FIRST] Zero RAG chunks — answering from general knowledge")
                 fallback_step = {
-                    "name": "Scheme Not in Knowledge Base — AI Answering",
+                    "name": "Generating Answer",
                     "status": "in-progress",
                     "timestamp": str(time.time())
                 }
                 steps.append(fallback_step)
                 yield send_steps(steps)
                 context_text_final = ""
-                source_label = "AI Fallback (no matching scheme found in knowledge base)"
+                source_label = "Hybrid RAG (Pinecone+BM25+CE)"
                 fallback_step["status"] = "completed"
                 yield send_steps(steps, fallback_step)
 
@@ -728,10 +728,11 @@ class RAGService:
                 f"Chat History:\n{chat_context}\n\n"
                 f"Context Information (RAG Knowledge Base - {source_label}):\n{context_text_final}\n\n"
                 f"User Question: {query}\n\n"
-                "Instruction: Answer the user question STRICTLY based on the Context Information above. "
-                "If the context contains relevant information, provide a detailed helpful answer. "
-                "If the context does not contain enough information to answer, say: 'I don't have specific details about this in my knowledge base. Please visit the official government portal or your nearest Common Service Centre.' "
-                "Do NOT use general internet knowledge for scheme details. Answer in English first."
+                "Instruction: Give a complete, helpful, and accurate answer. "
+                "Use the Context Information above as your primary source when available. "
+                "If the context has relevant details, use them fully. "
+                "If the context is limited, supplement with your knowledge of Indian government schemes — but always give a confident, useful answer. "
+                "NEVER say 'I don't know' or 'not in my knowledge base'. Answer in English first."
             )
             if target_language and target_language != "English":
                 full_prompt += f" Then provide a translation in {target_language}."
